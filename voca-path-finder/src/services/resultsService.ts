@@ -8,10 +8,23 @@ const RESULTS_KEY = "voca_results";
 
 export const resultsService: IResultsService = {
   async generateResults(userId: string, answers: Record<string, string> = {}): Promise<ResultsPayload> {
-    const stageQuestion = "Where are you right now in your journey?";
-    const firstAns = answers[stageQuestion] || "I’m doing my UG";
-    const stage = detectStage(firstAns);
-    const signals = extractSignals(stage, answers);
+    const cachedSignals = localStorage.getItem(`voca_signals_${userId}`);
+    let signals;
+    if (cachedSignals) {
+      try {
+        signals = JSON.parse(cachedSignals);
+      } catch {
+        // Fallback
+      }
+    }
+
+    if (!signals) {
+      const stageQuestion = "Where are you right now in your journey?";
+      const firstAns = answers[stageQuestion] || "I’m doing my UG";
+      const stage = detectStage(firstAns);
+      signals = extractSignals(stage, answers);
+    }
+
     const payload = generateRecommendations(userId, signals, answers);
     
     localStorage.setItem(`${RESULTS_KEY}_${userId}`, JSON.stringify(payload));

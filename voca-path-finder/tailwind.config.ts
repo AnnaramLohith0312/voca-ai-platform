@@ -17,10 +17,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        headline: ["Space Grotesk", "sans-serif"],
-        display: ["Space Grotesk", "sans-serif"],
-        body: ["Inter", "sans-serif"],
-        label: ["Inter", "sans-serif"],
+        headline: ["Clash Display", "Space Grotesk", "sans-serif"],
+        display: ["Clash Display", "Space Grotesk", "sans-serif"],
+        body: ["Satoshi", "Inter", "sans-serif"],
+        label: ["Satoshi", "Inter", "sans-serif"],
       },
       colors: {
         // ── shadcn / Radix compatibility ─────────────────────────

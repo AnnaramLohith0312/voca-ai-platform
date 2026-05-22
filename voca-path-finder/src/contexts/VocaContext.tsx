@@ -22,7 +22,7 @@ interface VocaState {
 
 interface VocaContextValue extends VocaState {
   saveAnswer: (answer: OnboardingAnswer) => void;
-  completeOnboarding: (answers: OnboardingAnswer[]) => Promise<void>;
+  completeOnboarding: (answers: OnboardingAnswer[], signals?: any) => Promise<void>;
   setAnalysisStatus: (status: VocaState["analysisStatus"]) => void;
   setResults: (payload: ResultsPayload) => void;
   resetFlow: () => Promise<void>;
@@ -149,9 +149,12 @@ export function VocaProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const completeOnboarding = useCallback(
-    async (answers: OnboardingAnswer[]) => {
+    async (answers: OnboardingAnswer[], signals?: any) => {
       if (user) {
         await onboardingService.saveSession(user.uid, answers);
+        if (signals) {
+          localStorage.setItem(`voca_signals_${user.uid}`, JSON.stringify(signals));
+        }
       }
       setState((prev) => ({
         ...prev,
@@ -184,6 +187,7 @@ export function VocaProvider({ children }: { children: React.ReactNode }) {
       await onboardingService.clearSession(user.uid);
       await resultsService.clearResults(user.uid);
       await analysisService.clearJob(user.uid);
+      localStorage.removeItem(`voca_signals_${user.uid}`);
     }
     setState({
       ...initialState,
