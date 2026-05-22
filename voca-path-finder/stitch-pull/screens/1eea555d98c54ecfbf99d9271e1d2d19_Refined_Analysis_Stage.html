@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Intelligence Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#0ea5a0",
+                    "success": "#c99a43",
+                    "background": "#0b0e12",
+                    "surface": "#11151b",
+                    "surface-variant": "#171c24",
+                    "on-surface": "#edf1f7",
+                    "on-surface-variant": "#8b95a7",
+                    "on-surface-muted": "#576073",
+                    "outline": "rgba(255, 255, 255, 0.08)",
+                    "progress-track": "#1f2530"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "display": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .orbit-slow { 
+            animation: orbit 60s linear infinite; 
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .orbit-slow { animation: none; }
+        }
+        body {
+            background-color: #0b0e12;
+            overflow: hidden;
+        }
+        .status-heading {
+            font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+        }
+        .status-subtext {
+            font-size: clamp(0.875rem, 0.82rem + 0.25vw, 1rem);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body h-screen flex flex-col">
+<!-- Top Bar -->
+<header class="fixed top-0 w-full h-16 bg-surface border-b border-outline backdrop-blur-md z-50 flex items-center px-6 md:px-12">
+<div class="flex justify-between items-center w-full max-w-[1440px] mx-auto">
+<div class="text-2xl font-headline font-semibold tracking-tighter text-[#edf1f7]">VOCA</div>
+<div>
+<span class="text-[12px] font-label font-medium uppercase tracking-wider text-primary px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
+                System Active
+            </span>
+</div>
+</div>
+</header>
+<!-- Main Stage -->
+<main class="flex-grow flex flex-col items-center justify-center relative overflow-hidden pt-16">
+<!-- Analysis Motif -->
+<div class="relative flex items-center justify-center mb-12">
+<!-- Outer Orbit Ring -->
+<div class="absolute w-[320px] h-[320px] border border-primary/15 rounded-full orbit-slow"></div>
+<!-- Central Core -->
+<div class="w-[104px] h-[104px] bg-surface-variant rounded-full flex items-center justify-center border border-outline relative z-10">
+<svg fill="none" height="48" stroke="#0ea5a0" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="48">
+<circle cx="12" cy="12" r="10"></circle>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</div>
+</div>
+<!-- Status Block -->
+<div class="text-center flex flex-col items-center max-w-lg px-6">
+<h1 class="font-headline font-semibold text-on-surface tracking-tight transition-opacity duration-300 status-heading mb-2" id="status-heading">
+            Reading your signals
+        </h1>
+<p class="font-body text-on-surface-variant leading-relaxed transition-opacity duration-300 status-subtext mb-8" id="status-subtext">
+            Reviewing the answers you shared with us...
+        </p>
+<!-- Progress Bar -->
+<div class="w-[240px] h-[2px] bg-progress-track rounded-full overflow-hidden mb-4">
+<div class="h-full bg-primary transition-all duration-700 ease-out" id="progress-bar" style="width: 20%"></div>
+</div>
+<p class="font-body text-[12px] text-on-surface-muted">
+            This usually takes a few seconds
+        </p>
+</div>
+</main>
+<script>
+    const phases = [
+        { title: "Reading your signals", sub: "Reviewing the answers you shared with us...", progress: 20 },
+        { title: "Mapping strengths and preferences", sub: "Identifying where your skills and goals align...", progress: 42 },
+        { title: "Comparing career paths", sub: "Matching your profile across thousands of role patterns...", progress: 65 },
+        { title: "Building your recommendation set", sub: "Selecting the paths most relevant to your direction...", progress: 88 }
+    ];
+
+    let currentPhase = 0;
+    const heading = document.getElementById('status-heading');
+    const subtext = document.getElementById('status-subtext');
+    const progressBar = document.getElementById('progress-bar');
+
+    function updatePhase() {
+        if (currentPhase < phases.length) {
+            const phase = phases[currentPhase];
+            
+            // Fade out
+            heading.style.opacity = '0';
+            subtext.style.opacity = '0';
+            
+            setTimeout(() => {
+                heading.innerText = phase.title;
+                subtext.innerText = phase.sub;
+                progressBar.style.width = phase.progress + '%';
+                
+                // Fade in
+                heading.style.opacity = '1';
+                subtext.style.opacity = '1';
+                
+                currentPhase++;
+                const nextDelay = 2500 + (Math.random() * 1000);
+                setTimeout(updatePhase, nextDelay);
+            }, 300);
+        } else {
+            // Completion State
+            setTimeout(() => {
+                heading.style.opacity = '0';
+                subtext.style.opacity = '0';
+                
+                setTimeout(() => {
+                    heading.innerText = "Analysis complete";
+                    subtext.innerText = "Your career map is ready.";
+                    progressBar.style.width = '100%';
+                    progressBar.style.backgroundColor = '#c99a43'; // Gold
+                    
+                    heading.style.opacity = '1';
+                    subtext.style.opacity = '1';
+                }, 300);
+            }, 1000);
+        }
+    }
+
+    // Initialize
+    window.addEventListener('load', () => {
+        setTimeout(updatePhase, 800);
+    });
+</script>
+</body></html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Intelligence Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcd",
+                    "surface-bright": "#36393e",
+                    "surface-dim": "#111418",
+                    "primary-fixed-dim": "#5ed9d3",
+                    "on-primary-fixed": "#00201f",
+                    "on-background": "#e1e2e8",
+                    "on-tertiary-fixed-variant": "#78310c",
+                    "on-tertiary-container": "#521b00",
+                    "secondary-fixed-dim": "#f1be63",
+                    "tertiary": "#ffb597",
+                    "background": "#111418",
+                    "inverse-on-surface": "#2e3135",
+                    "secondary": "#f1be63",
+                    "surface-container": "#1d2024",
+                    "on-secondary-fixed": "#271900",
+                    "on-primary": "#003735",
+                    "error-container": "#93000a",
+                    "surface-container-highest": "#323539",
+                    "primary-container": "#0ea5a0",
+                    "surface-tint": "#5ed9d3",
+                    "surface": "#111418",
+                    "primary-fixed": "#7df6ef",
+                    "primary": "#5ed9d3",
+                    "on-tertiary": "#581d00",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#ffdeaa",
+                    "outline": "#869392",
+                    "tertiary-container": "#d97b51",
+                    "on-error": "#690005",
+                    "on-surface": "#e1e2e8",
+                    "on-secondary-container": "#ffd694",
+                    "on-surface-variant": "#bcc9c8",
+                    "secondary-container": "#805a00",
+                    "surface-container-high": "#272a2f",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#323539",
+                    "tertiary-fixed-dim": "#ffb597",
+                    "on-primary-fixed-variant": "#00504d",
+                    "surface-container-low": "#191c20",
+                    "on-secondary": "#422c00",
+                    "surface-container-lowest": "#0b0e12",
+                    "inverse-primary": "#006a66",
+                    "on-primary-container": "#003331",
+                    "outline-variant": "#3d4948",
+                    "on-tertiary-fixed": "#360f00",
+                    "inverse-surface": "#e1e2e8",
+                    "border-subtle": "rgba(255, 255, 255, 0.08)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "display": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; filter: blur(20px); }
+            50% { opacity: 0.6; filter: blur(40px); }
+        }
+        @keyframes scanning {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+        .orbit-container { animation: orbit 60s linear infinite; }
+        .orbit-reverse { animation: orbit 40s linear infinite reverse; }
+        .pulse-soft { animation: pulse-glow 4s ease-in-out infinite; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .scan-line {
+            background: linear-gradient(to bottom, transparent, #5ed9d3, transparent);
+            animation: scanning 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body overflow-hidden">
+<!-- Header (Suppressed active navigation, minimal variant for analysis focus) -->
+<header class="fixed top-0 w-full bg-surface/80 backdrop-blur-md border-b border-subtle z-50">
+<div class="flex justify-between items-center h-16 px-6 md:px-12 max-w-[1440px] mx-auto w-full">
+<div class="text-2xl font-headline font-semibold tracking-tighter text-on-surface">VOCA</div>
+<div class="flex items-center gap-4">
+<span class="text-label-xs font-label uppercase tracking-widest text-on-surface-variant px-3 py-1 bg-surface-container rounded-full border border-subtle">
+                    System Active
+                </span>
+</div>
+</div>
+</header>
+<!-- Main Analysis Stage -->
+<main class="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
+<!-- Atmospheric Background Elements -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full pulse-soft"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/5 rounded-full pulse-soft" style="animation-delay: 1s;"></div>
+</div>
+<!-- Central Orbit Motif (The "Intelligence" Engine) -->
+<div class="relative z-10 w-full max-w-2xl flex flex-col items-center">
+<div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center mb-16">
+<!-- Decorative Orbiting Rings -->
+<div class="absolute inset-0 border border-primary/20 rounded-full orbit-container">
+<div class="absolute -top-1 left-1/2 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#5ed9d3]"></div>
+</div>
+<div class="absolute inset-8 border border-secondary/20 rounded-full orbit-reverse">
+<div class="absolute -bottom-1 left-1/2 w-2 h-2 bg-secondary rounded-full shadow-[0_0_10px_#f1be63]"></div>
+</div>
+<div class="absolute inset-16 border border-white/5 rounded-full"></div>
+<!-- Central Core -->
+<div class="relative w-32 h-32 md:w-40 md:h-40 bg-surface-container rounded-full border border-subtle flex items-center justify-center shadow-2xl overflow-hidden">
+<div class="scan-line absolute inset-0 w-full h-1/2"></div>
+<span class="material-symbols-outlined text-primary text-5xl opacity-80" style="font-variation-settings: 'FILL' 1;">
+                        neurology
+                    </span>
+</div>
+<!-- Floating Data Nodes -->
+<div class="absolute top-0 left-0 p-3 bg-surface-container/80 backdrop-blur-sm border border-subtle rounded-lg text-label-xs text-on-surface-variant flex items-center gap-2 -translate-x-1/2">
+<span class="material-symbols-outlined text-secondary text-sm">database</span>
+<span>Parsing Career DNA</span>
+</div>
+<div class="absolute bottom-10 right-0 p-3 bg-surface-container/80 backdrop-blur-sm border border-subtle rounded-lg text-label-xs text-on-surface-variant flex items-center gap-2 translate-x-1/4">
+<span class="material-symbols-outlined text-primary text-sm">insights</span>
+<span>Pattern Recognition</span>
+</div>
+</div>
+<!-- Status Messaging -->
+<div class="text-center space-y-6 max-w-md">
+<h1 class="font-headline text-headline-md md:text-headline-xl text-on-surface tracking-tight transition-all duration-700" id="status-heading">
+                    Initializing Cinematic Engine
+                </h1>
+<div class="flex flex-col items-center gap-4">
+<p class="font-body text-on-surface-variant leading-relaxed opacity-70" id="status-subtext">
+                        Synthesizing raw data into professional intelligence...
+                    </p>
+<!-- High-Precision Progress Bar -->
+<div class="w-64 h-1 bg-surface-container-highest rounded-full overflow-hidden relative border border-white/5">
+<div class="absolute top-0 left-0 h-full bg-primary transition-all duration-1000 ease-out shadow-[0_0_8px_#5ed9d3]" id="progress-bar" style="width: 0%"></div>
+</div>
+</div>
+</div>
+<!-- Real-time Console Log (Asymmetric Detail) -->
+<div class="mt-16 w-full max-w-sm font-label text-[10px] tracking-wider uppercase text-on-surface-variant/40 grid grid-cols-2 gap-x-8 gap-y-2">
+<div class="flex justify-between border-b border-subtle pb-1">
+<span>Latent Dimension</span>
+<span class="text-secondary">4096-D</span>
+</div>
+<div class="flex justify-between border-b border-subtle pb-1">
+<span>Heuristic Match</span>
+<span class="text-primary">99.2%</span>
+</div>
+<div class="flex justify-between border-b border-subtle pb-1">
+<span>Neural Drift</span>
+<span class="text-on-surface">Stable</span>
+</div>
+<div class="flex justify-between border-b border-subtle pb-1">
+<span>VOCA Layer</span>
+<span class="text-on-surface">L7 Prime</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Analysis Details Grid (Bento Style) -->
+<section class="max-w-[1200px] mx-auto px-6 pb-24 grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+<div class="bg-surface-container-low border border-subtle p-6 rounded-xl hover:bg-surface-container transition-colors duration-300">
+<span class="material-symbols-outlined text-primary mb-4">psychology</span>
+<h3 class="font-headline text-label-sm uppercase tracking-widest text-on-surface-variant mb-2">Cognitive Load</h3>
+<p class="text-on-surface text-sm leading-relaxed">Evaluating the complexity of previous career milestones against future trajectory peaks.</p>
+</div>
+<div class="bg-surface-container-low border border-subtle p-6 rounded-xl hover:bg-surface-container transition-colors duration-300">
+<span class="material-symbols-outlined text-secondary mb-4">star_rate</span>
+<h3 class="font-headline text-label-sm uppercase tracking-widest text-on-surface-variant mb-2">Market Gravity</h3>
+<p class="text-on-surface text-sm leading-relaxed">Analyzing external industry demand shifts to calibrate your unique value proposition.</p>
+</div>
+<div class="bg-surface-container-low border border-subtle p-6 rounded-xl hover:bg-surface-container transition-colors duration-300">
+<span class="material-symbols-outlined text-tertiary mb-4">hub</span>
+<h3 class="font-headline text-label-sm uppercase tracking-widest text-on-surface-variant mb-2">Network Resonance</h3>
+<p class="text-on-surface text-sm leading-relaxed">Mapping professional connections to hidden opportunities within the CINEMA database.</p>
+</div>
+</section>
+<!-- Footer (The Blueprint) -->
+<footer class="w-full py-12 bg-surface-container-lowest border-t border-subtle">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 md:px-24 gap-6 max-w-[1440px] mx-auto">
+<div class="text-xl font-headline font-bold text-on-surface">VOCA</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Career Insights</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<div class="font-body text-label-xs text-on-surface-variant opacity-60">
+                Â© 2024 VOCA Cinematic Intelligence. All rights reserved.
+            </div>
+</div>
+</footer>
+<script>
+        // Analysis Phase Sequencer
+        const phases = [
+            { title: "Calibrating Neural Pathways", sub: "Establishing baseline career parameters...", progress: 15 },
+            { title: "Mapping Strengths", sub: "Isolating high-performance professional markers...", progress: 35 },
+            { title: "Analyzing Market Fit", sub: "Comparing profile against 50,000+ industry archetypes...", progress: 55 },
+            { title: "Detecting Preferences", sub: "Fine-tuning cultural and environmental alignment...", progress: 75 },
+            { title: "Finalizing Intelligence", sub: "Generating your personalized cinematic report...", progress: 95 }
+        ];
+
+        let currentPhase = 0;
+        const heading = document.getElementById('status-heading');
+        const subtext = document.getElementById('status-subtext');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updatePhase() {
+            if (currentPhase < phases.length) {
+                const phase = phases[currentPhase];
+                
+                // Text Transitions
+                heading.style.opacity = '0';
+                subtext.style.opacity = '0';
+                
+                setTimeout(() => {
+                    heading.innerText = phase.title;
+                    subtext.innerText = phase.sub;
+                    heading.style.opacity = '1';
+                    subtext.style.opacity = '0.7';
+                    progressBar.style.width = phase.progress + '%';
+                    currentPhase++;
+                }, 400);
+
+                // Timing varies to simulate "thought"
+                const nextDelay = 2000 + (Math.random() * 1500);
+                setTimeout(updatePhase, nextDelay);
+            } else {
+                // Complete - could redirect here
+                setTimeout(() => {
+                    heading.innerText = "Analysis Complete";
+                    subtext.innerText = "Intelligence report is ready for viewing.";
+                    progressBar.style.backgroundColor = '#f1be63'; // Switch to Gold for success
+                    progressBar.classList.add('shadow-[0_0_15px_#f1be63]');
+                }, 1000);
+            }
+        }
+
+        // Initialize simulation
+        window.addEventListener('load', () => {
+            setTimeout(updatePhase, 800);
+        });
+    </script>
+</body></html>

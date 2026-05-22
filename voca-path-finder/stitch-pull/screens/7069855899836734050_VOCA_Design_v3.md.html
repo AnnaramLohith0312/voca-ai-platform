@@ -1,0 +1,732 @@
+# VOCA â Frontend Design System & Product Experience Specification (v3)
+
+## Purpose
+
+This document is the single source of truth for VOCAâs frontend product experience, visual language, interaction behavior, page architecture, and implementation direction.
+
+It is written to guide design generation in Stitch, frontend refinement in AI Studio, and final functional integration into the actual application stack.
+
+VOCA must feel like a premium career intelligence platform, not a quiz, not a job board, and not a generic AI startup template.
+
+## Product Intent
+
+VOCA converts scattered self-knowledge into structured career direction through a guided, explainable, and adaptive experience.
+
+The product should feel less like completing a form and more like having a calm, intelligent conversation with a high-agency advisor.
+
+The user should feel understood, guided, respected, and more certain about what to explore next by the end of the flow.
+
+## Product Layers
+
+VOCA has four primary product layers:
+
+- Trust layer â landing, authentication, privacy reassurance, and explainability.
+- Conversation layer â guided intake through chat-style prompts.
+- Adaptive intelligence layer â branching question flow and dynamic skill surfacing.
+- Recommendation layer â explainable matches, skill gaps, role details, and next-step guidance.
+
+## Core Principles
+
+- Guided, not form-like â onboarding must use one-question-at-a-time interactions rather than a static survey or multi-field form.
+- Serious, not futuristic-noisy â the interface should use dark cinematic surfaces, restrained glow, teal action color, muted gold emphasis, and minimal visual clutter.
+- Adaptive, not generic â the interface should clearly communicate that VOCA is tailoring the experience based on previous answers and emerging confidence signals.
+- Mobile-first intelligence â the entire experience must work beautifully on phones, especially chat, answer cards, skill rating, and results exploration.
+- Explainability everywhere â whenever VOCA asks something or recommends something, the interface should help the user understand why it matters.
+
+## Brand Tone
+
+VOCAâs tone is: **cinematic clarity meets quiet precision**.
+
+The product should feel cinematic, intelligent, warm-dark, premium, calm, precise, and human.
+
+Every design choice should reinforce trust, focus, clarity, and purposeful structure rather than decoration.
+
+## Information Architecture
+
+### Public Pages
+
+- `/` â landing page
+- `/auth` â sign in and sign up
+
+### Guided Experience
+
+- `/onboarding/chat` â separate conversational intake page
+- `/analysis` â animated processing state
+- `/results/:sessionId` â personalized recommendation output
+- `/career/:careerSlug` â detailed role breakdown
+
+### Logged-in Workspace
+
+- `/dashboard` â saved results and recent sessions
+- `/profile` â editable user profile
+- `/settings` â privacy, account, and preferences
+
+## Experience Flow
+
+Landing â Auth â Chat onboarding â Adaptive skills â Career priorities â Analysis â Results â Save / Compare / Dashboard
+
+## Updated Onboarding Sequence
+
+The old multi-step onboarding form is replaced with a conversational, adaptive sequence.
+
+- VOCA greets the user.
+- The user answers one lightweight question.
+- VOCA chooses the next best question.
+- Once enough signal is collected, VOCA opens a deeper skill calibration layer.
+- The user completes career priorities and preference calibration.
+- VOCA transitions into analysis.
+- The results page returns ranked, explainable career matches.
+
+---
+
+# Visual System
+
+## Color System
+
+VOCA uses a dark-first palette with teal as the primary signal color and muted gold as the score and highlight color.
+
+```css
+:root {
+  --voca-bg: #0b0e12;
+  --voca-surface: #11151b;
+  --voca-surface-2: #171c24;
+  --voca-surface-3: #1f2530;
+  --voca-border: rgba(255,255,255,0.08);
+  --voca-divider: rgba(255,255,255,0.05);
+
+  --voca-text: #edf1f7;
+  --voca-text-muted: #8b95a7;
+  --voca-text-faint: #576073;
+  --voca-text-inverse: #091015;
+
+  --voca-teal: #0ea5a0;
+  --voca-teal-hover: #0c8e89;
+  --voca-teal-active: #0a7672;
+  --voca-teal-soft: rgba(14,165,160,0.10);
+  --voca-teal-glow: rgba(14,165,160,0.18);
+
+  --voca-gold: #c99a43;
+  --voca-gold-hover: #b98933;
+  --voca-gold-soft: rgba(201,154,67,0.12);
+
+  --voca-success: #4ea978;
+  --voca-warning: #d5a13a;
+  --voca-error: #d96a6a;
+  --voca-error-soft: rgba(217,106,106,0.12);
+
+  --voca-gradient-bg: linear-gradient(135deg, #0b0e12 0%, #0f1520 45%, #0d1a1d 100%);
+  --voca-gradient-teal: linear-gradient(135deg, #11b6b0 0%, #0b7e7a 100%);
+  --voca-gradient-card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+}
+```
+
+### Color Rules
+
+- Teal is reserved for primary action, focus, progress, links, and active state.
+- Gold is reserved for match scores, premium highlights, milestone emphasis, and earned indicators.
+- Error color is used only for validation, failure, and broken-state messaging.
+- Never use purple, electric blue, rainbow gradients, or neon startup-style accents.
+- Backgrounds must layer from `--voca-bg` to `--voca-surface` to `--voca-surface-2` without skipping or reversing the hierarchy.
+- Borders must always be subtle low-opacity light borders, not solid gray.
+
+## Typography
+
+VOCA uses Space Grotesk for display and Inter for body/UI text.
+
+```css
+:root {
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-body: 'Inter', 'DM Sans', sans-serif;
+
+  --text-xs: clamp(0.75rem, 0.72rem + 0.2vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.82rem + 0.25vw, 1rem);
+  --text-base: clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.55vw, 1.375rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --text-2xl: clamp(2rem, 1.3rem + 2vw, 3rem);
+  --text-hero: clamp(2.75rem, 1.5rem + 4vw, 5.5rem);
+}
+```
+
+### Type Rules
+
+- Landing hero may use `--text-hero`.
+- Auth, onboarding, results, and dashboard should cap at `--text-2xl`.
+- Body copy should remain at `--text-base` for readability.
+- Tiny helper and metadata text must never go below 12px.
+- Headings should be concise and left-aligned by default.
+- Center alignment is reserved for hero moments and short taglines, not paragraphs or card bodies.
+
+## Spacing
+
+VOCA uses a 4px spacing system throughout the product.
+
+```css
+:root {
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+}
+```
+
+### Density Guidance
+
+- Tight spacing is used for chips, micro-labels, and chat actions.
+- Moderate spacing is used for cards, forms, and answer groups.
+- Generous spacing is used for hero sections and major section transitions.
+
+## Radius, Borders, and Shadows
+
+```css
+:root {
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.22);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.24);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.32);
+  --shadow-teal: 0 0 0 1px rgba(14,165,160,0.20), 0 12px 32px rgba(14,165,160,0.08);
+  --shadow-gold: 0 0 16px rgba(201,147,58,0.15);
+}
+```
+
+### Surface Rules
+
+- Visual depth should come from layered surfaces before stronger shadows are introduced.
+- Frosted panels should remain dark and subtle, not bright glassmorphism.
+- Nested radius should always reduce based on the padding gap between outer and inner containers.
+
+## Motion System
+
+VOCA motion must feel calm, intelligent, and progressive rather than flashy.
+
+Only animate elements when the movement adds meaning to the state change.
+
+```css
+:root {
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 240ms;
+  --duration-slow: 420ms;
+  --duration-page: 650ms;
+}
+```
+
+### Motion Rules
+
+- Prefer opacity plus translate transforms only.
+- Do not animate width, height, or raw color shifts as the primary motion language.
+- Use fade-and-rise for content reveal, stagger answer chips, count up scores, and animate analysis progress lines.
+- Use a subtle animated network background on public and auth surfaces only.
+- Respect `prefers-reduced-motion` by removing graph movement and typing bounce while keeping simple opacity transitions.
+
+---
+
+# Page Architecture
+
+## 1. Landing Page `/`
+
+### Goal
+
+Communicate VOCA as a premium career intelligence platform rather than a simple quiz.
+
+### Structure
+
+- Sticky navbar.
+- Full-height hero section.
+- Problem framing with three pain points.
+- How VOCA works section.
+- Intelligence dimensions section.
+- Sample results preview.
+- Trust, privacy, and explainability section.
+- Final CTA strip.
+- Footer.
+
+### Hero Requirements
+
+- Dark cinematic background with subtle trajectory or network motion.
+- Strong, high-conviction headline.
+- Short subline explaining guided, personalized career clarity.
+- One dominant CTA, such as âStart your career mapâ or âGet my career map.â
+- One secondary CTA for sample results preview.
+
+### Navbar Requirements
+
+- Transparent on hero, then surface + blur on scroll.
+- Left side should hold the VOCA logo and wordmark.
+- Right side should hold Sign in and Get started actions.
+- Mobile should use a hamburger with a slide-down menu.
+
+## 2. Auth Page `/auth`
+
+### Goal
+
+Make authentication feel like the secure entry point to a premium intelligence platform.
+
+### Layout
+
+- Desktop uses a split-screen layout.
+- Mobile uses a single-column layout with the auth card first.
+
+### Left Panel
+
+- VOCA logo.
+- Brand statement and supporting line.
+- Animated network or future-map visual.
+- Three trust micro-points such as explainability, privacy-first, and fast setup.
+
+### Right Panel
+
+- Frosted or elevated auth card.
+- Sign in / sign up tabs with sliding pill behavior.
+- Email and password fields.
+- Google and LinkedIn options.
+- Magic link option.
+- Forgot password link.
+- Small privacy reassurance.
+
+### Interaction Requirements
+
+- Premium teal focus states.
+- Inline validation.
+- Calm loading behavior.
+- Balanced social auth layout.
+
+## 3. Conversational Onboarding Page `/onboarding/chat`
+
+### Goal
+
+Replace static form UX with a focused, intimate, high-completion guided conversation.
+
+### Core Rule
+
+This must be a **separate page** with a dedicated conversational flow, not a standard step-form page or classic wizard.
+
+### Layout
+
+- Full-screen or near-full-screen vertical app shell.
+- Minimal top bar with VOCA logo and subtle progress indicator.
+- Narrow centered reading column for the conversation thread.
+- Sticky response area near the bottom, especially on mobile.
+
+### Conversation Structure
+
+- VOCA greeting message.
+- One question visible at a time.
+- User selects or enters an answer.
+- VOCA responds and advances the flow.
+- Typing indicator appears between transitions.
+- Adaptive skills module appears once enough signal is collected.
+
+### Chat Visuals
+
+- VOCA messages use dark elevated bubbles.
+- User answers use teal-tinted or teal-solid treatment depending on importance.
+- Timestamps stay hidden by default.
+- The avatar treatment must remain minimal and premium.
+- The interface should use whitespace to reduce cognitive load.
+
+### Progress System
+
+- Do not use a classic step wizard.
+- Use a thin top progress line instead.
+- Use subtle microcopy such as âUnderstanding your direction.â
+- Progress should feel reassuring, not mechanical.
+
+## 4. Adaptive Skills Module
+
+### Goal
+
+Take the conversation deeper without making the experience feel like a test.
+
+### Behavior
+
+- Skills should be chosen dynamically based on earlier answers.
+- Skills should appear in waves rather than all at once.
+- Recommended wave structure is three core skills, then two secondary skills, then one hobby or soft-skill calibration prompt.
+
+### Skill Row Structure
+
+- Skill icon or emoji.
+- Skill name.
+- Tiny helper line or tooltip.
+- Rating control.
+- Current selected level label.
+
+### Rating Pattern
+
+The recommended control is a five-step segmented control for clarity and mobile usability.
+
+### Level Labels
+
+- Beginner.
+- Familiar.
+- Intermediate.
+- Proficient.
+- Expert.
+
+### UI Rule
+
+The adaptive skill layer should appear like a natural branch of the conversation rather than an intimidating new page.
+
+## 5. Career Priorities Module
+
+### Goal
+
+Help VOCA understand what success means to the user.
+
+### Recommended Interaction
+
+Start with top-two selection, then optionally allow ranking if needed.
+
+### Priority Examples
+
+- High earning potential.
+- Fast growth.
+- Work-life balance.
+- Creative freedom.
+- Social impact.
+- Stability.
+- Continuous learning.
+
+### UI Rule
+
+Use compact chips or cards rather than dropdowns.
+
+## 6. Analysis Page `/analysis`
+
+### Goal
+
+Turn waiting time into perceived intelligence.
+
+### Layout
+
+- Full-screen centered stage.
+- Animated graph, orbit, or progress motif.
+- Status text that updates in phases.
+- Subtle reassurance copy.
+
+### Suggested Analysis Phases
+
+- Reading your signals.
+- Mapping strengths and preferences.
+- Comparing career paths.
+- Building your recommendation set.
+
+### Rule
+
+Do not use a generic spinner-only waiting screen.
+
+## 7. Results Page `/results/:sessionId`
+
+### Goal
+
+Present recommendations as explainable, credible, and actionable.
+
+### Layout
+
+- Desktop uses main content plus side utility area.
+- Mobile uses a stacked single-column layout with the best match first.
+
+### Page Order
+
+1. Results header.
+2. Best match hero card.
+3. Ranked alternative matches.
+4. Why this fits you.
+5. Skill alignment and gaps.
+6. Career priorities alignment.
+7. Next steps.
+
+### Best Match Hero Card
+
+- Career title.
+- Match score.
+- Short summary.
+- Key reasons.
+- One main CTA.
+- Score visualization in teal.
+
+### Explainability Sections
+
+- Why VOCA recommended this.
+- Your strongest signals.
+- What to improve next.
+
+## 8. Career Detail Page `/career/:careerSlug`
+
+### Goal
+
+Let the user explore a single path more deeply.
+
+### Sections
+
+- Role overview.
+- What this career involves.
+- Why you matched.
+- Required skills.
+- Missing skills.
+- Suggested roadmap.
+- Similar roles.
+
+### UI Rule
+
+This page should feel more editorial and knowledge-rich than the results overview.
+
+## 9. Dashboard `/dashboard`
+
+### Goal
+
+Create a long-term workspace rather than a one-time result viewer.
+
+### Layout
+
+- Sidebar on desktop.
+- Bottom navigation on mobile.
+- Top bar with context, search, and user access.
+- Main area with progress and saved content modules.
+
+### Modules
+
+- Latest top match.
+- Saved roles.
+- Compare careers.
+- Resume profile later.
+- Re-run career map.
+
+### Tone
+
+Dashboard should feel more product-like and operational than landing and auth.
+
+---
+
+# Component System & Implementation
+
+## Core Atoms
+
+- Button.
+- Input.
+- Label.
+- Badge.
+- Divider.
+- Tooltip.
+- Progress line.
+- Icon chip.
+
+## Core Molecules
+
+- Auth card.
+- Message bubble.
+- Typing indicator.
+- Answer chip group.
+- Skill rater row.
+- Priority selector.
+- Match score pill.
+- Recommendation card.
+
+## Core Organisms
+
+- Landing hero.
+- Auth split layout.
+- Chat onboarding shell.
+- Adaptive skills block.
+- Analysis stage.
+- Results hero card.
+- Dashboard sidebar.
+
+## Component Behavior Rules
+
+### Buttons
+
+- Primary buttons use a teal gradient, white text, pill radius, and a minimum 44px height.
+- Secondary buttons use a transparent or dark-surface background with teal-bordered emphasis.
+- Ghost buttons are low-emphasis surfaced buttons for dismissive or secondary actions.
+- Hover and active states should feel subtle and premium rather than exaggerated.
+
+### Inputs
+
+- Inputs use dark surface fields with low-contrast borders and teal focus states.
+- Labels must sit above fields.
+- Helper or validation text must appear below fields.
+- Error feedback uses soft red and specific messaging.
+
+### Answer Chips
+
+- Chips should be rounded, mobile-friendly, and able to support multi-line labels.
+- Selected state may use teal fill or teal border treatment.
+
+### Message Bubbles
+
+- VOCA bubbles use a dark elevated surface.
+- User bubbles use teal tint or teal solid depending on semantic emphasis.
+- Bubbles should enter smoothly and keep line length comfortable.
+
+### Recommendation Cards
+
+- Cards should emphasize title, score, rationale, and next action.
+- Never use generic SaaS icon circles on recommendation cards.
+
+## Frontend Structure
+
+```txt
+src/
+âââ api/
+â   âââ client.ts
+â   âââ authApi.ts
+â   âââ careerApi.ts
+â   âââ conversationApi.ts
+â   âââ dashboardApi.ts
+âââ components/
+â   âââ ui/
+â   â   âââ Button.tsx
+â   â   âââ Input.tsx
+â   â   âââ Badge.tsx
+â   â   âââ Divider.tsx
+â   â   âââ Tooltip.tsx
+â   âââ auth/
+â   â   âââ AuthCard.tsx
+â   â   âââ SocialAuthButtons.tsx
+â   â   âââ MagicLinkForm.tsx
+â   âââ chat/
+â   â   âââ ChatWindow.tsx
+â   â   âââ MessageBubble.tsx
+â   â   âââ AnswerOptions.tsx
+â   â   âââ TypingIndicator.tsx
+â   â   âââ SkillRater.tsx
+â   â   âââ PriorityPicker.tsx
+â   âââ results/
+â   â   âââ BestMatchHero.tsx
+â   â   âââ RecommendationCard.tsx
+â   â   âââ SkillGapPanel.tsx
+â   â   âââ MatchScore.tsx
+â   âââ dashboard/
+â   â   âââ Sidebar.tsx
+â   â   âââ Topbar.tsx
+â   â   âââ SavedCareerCard.tsx
+â   âââ landing/
+â       âââ Hero.tsx
+â       âââ HowItWorks.tsx
+â       âââ TrustSection.tsx
+âââ data/
+â   âââ conversationFlow.ts
+â   âââ skillsDatabase.ts
+â   âââ skillSelector.ts
+âââ hooks/
+â   âââ useAuth.ts
+â   âââ useConversation.ts
+â   âââ useSkillSelection.ts
+â   âââ useResults.ts
+â   âââ useDashboard.ts
+âââ pages/
+â   âââ Landing.tsx
+â   âââ Auth.tsx
+â   âââ ChatOnboarding.tsx
+â   âââ Analysis.tsx
+â   âââ Results.tsx
+â   âââ CareerDetail.tsx
+â   âââ Dashboard.tsx
+â   âââ Profile.tsx
+â   âââ Settings.tsx
+âââ styles/
+â   âââ tokens.css
+â   âââ base.css
+â   âââ motion.css
+âââ utils/
+    âââ profileMapper.ts
+```
+
+### Architecture Rule
+
+The logged-in app should use one dominant scroll region and avoid nested scroll traps.
+
+---
+
+# Quality Rules
+
+## Conversation Writing Rules
+
+VOCA should sound encouraging, concise, calm, intelligent, and human.
+
+It should never sound robotic, overeager, or overly casual.
+
+### Good Examples
+
+- âLetâs start simple â what are you studying right now?â
+- âThat helps. Which part of tech pulls you in most?â
+- âLetâs calibrate your strengths a bit deeper.â
+- âOne last thing â what matters most to you in a career?â
+
+### Avoid
+
+- Long paragraphs in chat.
+- More than one question at a time.
+- Repetitive filler like âAwesome,â âGreat,â or âPerfectâ after every answer.
+
+## Accessibility
+
+- Every interactive element must have at least a 44px tap target.
+- Keyboard navigation must work across all interactive controls.
+- Focus rings must remain clearly visible.
+- Body text contrast must meet at least 4.5:1.
+- Labels must exist on every form element.
+- The system must not rely only on color to communicate state.
+- Motion must degrade safely under reduced-motion settings.
+
+## Mobile Rules
+
+- Keep important onboarding actions within thumb reach.
+- Use a sticky bottom action zone for answer chips or CTA areas in chat contexts.
+- Avoid dense two-column layouts inside onboarding.
+- All social auth buttons stack full-width on mobile.
+- Results hero cards stack vertically on mobile.
+- Sidebar should collapse to bottom navigation on mobile.
+- Body text must remain at least 16px on mobile.
+
+## Anti-patterns to Avoid
+
+- Static long onboarding forms.
+- Full questionnaires with many visible fields at once.
+- Purple or blue gradient startup aesthetics.
+- Heavy bright glassmorphism.
+- Chat UI that looks like customer support software.
+- Too much center alignment across cards and content blocks.
+- Too many floating decorative shapes.
+- Generic AI copy such as âUnlock your future with AI-powered excellence.â
+- Spinner-only analysis screens.
+- Identical three-column feature-card rows.
+- Icons inside colored circles as feature decoration.
+- Harsh neon shadows or full-opacity glow.
+
+## Stitch / Generation Guidance
+
+When generating VOCA screens in Stitch or similar tools, always anchor the generation to the following constraints.
+
+- Build a dark cinematic but premium career intelligence UI.
+- Use Space Grotesk plus Inter.
+- Use teal as the primary action color and muted gold as the score accent.
+- Replace forms with a chat-style onboarding experience.
+- Show one question at a time.
+- Add adaptive skill calibration in waves.
+- Keep results explainable and the dashboard structured.
+- Prioritize mobile readability, premium focus states, and restrained motion.
+- Avoid purple gradients, generic SaaS layouts, and icon-in-circle feature cards.
+
+## Final UX Outcome
+
+By the end of the VOCA experience, the user should feel understood, guided, respected, and more confident about what to explore next.
+
+That emotional outcome matters as much as the recommendation logic itself.

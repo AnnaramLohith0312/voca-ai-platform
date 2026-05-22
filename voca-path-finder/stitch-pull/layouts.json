@@ -1,0 +1,105 @@
+[
+  {
+    "id": "06877ebb9ad64c2c9c211995e4566057",
+    "sourceScreen": "projects/14279296925868381210/screens/06877ebb9ad64c2c9c211995e4566057",
+    "x": 7744,
+    "y": 2024,
+    "width": 1280,
+    "height": 1024
+  },
+  {
+    "id": "19583cd8588d426c98aa66c50f72d152",
+    "sourceScreen": "projects/14279296925868381210/screens/19583cd8588d426c98aa66c50f72d152",
+    "x": 6400,
+    "y": 2024,
+    "width": 1280,
+    "height": 1024
+  },
+  {
+    "id": "1eea555d98c54ecfbf99d9271e1d2d19",
+    "sourceScreen": "projects/14279296925868381210/screens/1eea555d98c54ecfbf99d9271e1d2d19",
+    "x": 10432,
+    "y": 2024,
+    "width": 1280,
+    "height": 1024
+  },
+  {
+    "id": "268966ea-aa12-4313-9937-a693f78dd796",
+    "sourceScreen": "projects/14279296925868381210/screens/7069855899836734050",
+    "width": 780,
+    "height": 1768,
+    "type": "SCREEN_INSTANCE"
+  },
+  {
+    "id": "2be84be1cf1447f18ccc49f937061f49",
+    "sourceScreen": "projects/14279296925868381210/screens/2be84be1cf1447f18ccc49f937061f49",
+    "x": 11776,
+    "y": 2024,
+    "width": 1280,
+    "height": 1715
+  },
+  {
+    "id": "704ba6a29c084a9597084eccf8738390",
+    "sourceScreen": "projects/14279296925868381210/screens/704ba6a29c084a9597084eccf8738390",
+    "x": 14464,
+    "y": 2024,
+    "width": 1280,
+    "height": 1024
+  },
+  {
+    "id": "843b1df7e1ea4ef59f08a9b4c2d21b27",
+    "sourceScreen": "projects/14279296925868381210/screens/843b1df7e1ea4ef59f08a9b4c2d21b27",
+    "x": 3712,
+    "y": 2024,
+    "width": 1280,
+    "height": 1024
+  },
+  {
+    "id": "9f9179551aef4aba9fad2c745e823e4a",
+    "sourceScreen": "projects/14279296925868381210/screens/9f9179551aef4aba9fad2c745e823e4a",
+    "x": 5056,
+    "y": 2024,
+    "width": 1280,
+    "height": 1024
+  },
+  {
+    "id": "assets-d9210543b49b4bf9b3030590cc146627-1779292166554",
+    "x": 844,
+    "width": 960,
+    "height": 540,
+    "sourceAsset": "assets/d9210543b49b4bf9b3030590cc146627",
+    "type": "DESIGN_SYSTEM_INSTANCE"
+  },
+  {
+    "id": "bc47f1b499d04483b784728001070d08",
+    "sourceScreen": "projects/14279296925868381210/screens/bc47f1b499d04483b784728001070d08",
+    "x": 1024,
+    "y": 2024,
+    "width": 1280,
+    "height": 3726
+  },
+  {
+    "id": "e4ff9f7e1a76477f8cacd290cd5fee1a",
+    "sourceScreen": "projects/14279296925868381210/screens/e4ff9f7e1a76477f8cacd290cd5fee1a",
+    "x": 13120,
+    "y": 2024,
+    "width": 1280,
+    "height": 2121
+  },
+  {
+    "id": "e913a723d4894d37bb88df923473f80a",
+    "sourceScreen": "projects/14279296925868381210/screens/e913a723d4894d37bb88df923473f80a",
+    "x": 9088,
+    "y": 2024,
+    "width": 1280,
+    "height": 1413
+  },
+  {
+    "id": "e9a5b619cf6d4810b3874751b5372c6e",
+    "sourceScreen": "projects/14279296925868381210/screens/e9a5b619cf6d4810b3874751b5372c6e",
+    "x": 2368,
+    "y": 2024,
+    "width": 1280,
+    "height": 3608
+  }
+]

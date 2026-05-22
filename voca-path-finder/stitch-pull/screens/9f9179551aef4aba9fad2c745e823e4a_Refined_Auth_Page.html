@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Intelligence Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0ea5a0",
+                        "primary-variant": "#0d9390",
+                        "surface": "#0b0e12",
+                        "card": "#1a1e26",
+                        "input-bg": "#20252f",
+                        "on-surface": "#e8e9ec",
+                        "on-surface-variant": "#7e8494",
+                        "border-subtle": "rgba(255, 255, 255, 0.07)"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "card": "24px",
+                        "pill": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0e12;
+            color: #e8e9ec;
+            font-family: 'Inter', sans-serif;
+        }
+        .brand-gradient {
+            background: linear-gradient(135deg, #0d0f12 0%, #101520 100%);
+        }
+        .auth-card {
+            background: #1a1e26;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+        }
+        .input-field {
+            background: #20252f;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.2s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #0ea5a0;
+            box-shadow: 0 0 0 1px #0ea5a0, 0 0 12px rgba(14, 165, 160, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #0ea5a0, #0d9390);
+        }
+        .tab-active {
+            background: #0ea5a0;
+            color: #ffffff;
+        }
+        .network-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 160, 0.4), transparent);
+            height: 1px;
+            width: 100%;
+            pointer-events: none;
+        }
+        @keyframes flow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .animate-flow {
+            animation: flow 20s linear infinite;
+        }
+        .transition-height {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex selection:bg-primary/30 selection:text-primary">
+<!-- Left Panel: Brand Experience -->
+<section class="hidden lg:flex flex-1 relative flex-col justify-between p-16 brand-gradient overflow-hidden border-r border-border-subtle">
+<div class="z-20">
+<span class="text-2xl font-headline font-semibold tracking-tight text-on-surface">VOCA</span>
+</div>
+<div class="z-20 max-w-md">
+<h1 class="font-headline text-5xl font-semibold leading-[1.15] tracking-tight mb-6">
+                Career clarity, powered by intelligent guidance
+            </h1>
+<p class="text-on-surface-variant text-lg font-body mb-10">
+                Get your first career projection in 3â5 minutes.
+            </p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-sm font-medium text-on-surface-variant/80">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Explainable results
+                </li>
+<li class="flex items-center gap-3 text-sm font-medium text-on-surface-variant/80">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Privacy-first
+                </li>
+<li class="flex items-center gap-3 text-sm font-medium text-on-surface-variant/80">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> 3-minute setup
+                </li>
+</ul>
+</div>
+<div class="z-20">
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant/40">Â© 2026 VOCA Intelligence Systems</p>
+</div>
+<!-- Network Animation -->
+<div class="absolute inset-0 z-10 opacity-10" id="network-canvas"></div>
+</section>
+<!-- Right Panel: Auth Container -->
+<main class="flex-1 flex flex-col items-center justify-center p-6 md:p-12">
+<div class="w-full max-w-[440px]">
+<!-- Mobile Logo -->
+<div class="lg:hidden flex justify-center mb-10">
+<span class="text-2xl font-headline font-semibold tracking-tight text-on-surface">VOCA</span>
+</div>
+<div class="auth-card rounded-card p-8 md:p-10 mb-8">
+<header class="text-center mb-10">
+<h2 class="font-headline text-2xl font-semibold mb-2" id="auth-title">Welcome back</h2>
+<p class="text-on-surface-variant text-sm" id="auth-subtitle">Enter your credentials to access your dashboard.</p>
+</header>
+<!-- Auth Tabs -->
+<div class="flex bg-input-bg p-1 rounded-pill mb-8 border border-border-subtle relative">
+<button class="flex-1 py-2.5 text-sm font-medium rounded-pill transition-all duration-300 z-10 tab-active" id="tab-signin" onclick="switchTab('signin')">
+                        Sign In
+                    </button>
+<button class="flex-1 py-2.5 text-sm font-medium rounded-pill transition-all duration-300 z-10 text-on-surface-variant hover:text-on-surface" id="tab-signup" onclick="switchTab('signup')">
+                        Sign Up
+                    </button>
+</div>
+<!-- Auth Form -->
+<form class="space-y-6" id="auth-form" onsubmit="return false">
+<!-- Full Name Field (Hidden for Sign In) -->
+<div class="space-y-2 transition-height max-h-0 opacity-0 overflow-hidden" id="name-field-container">
+<label class="block text-sm font-medium text-on-surface-variant ml-1" for="fullname">Full Name</label>
+<input autocomplete="name" class="input-field w-full py-3 px-4 rounded-lg text-on-surface placeholder:text-on-surface-variant/30" id="fullname" placeholder="Jane Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-on-surface-variant ml-1" for="email">Email Address</label>
+<input autocomplete="email" class="input-field w-full py-3 px-4 rounded-lg text-on-surface placeholder:text-on-surface-variant/30" id="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="text-sm font-medium text-on-surface-variant" for="password">Password</label>
+<a class="text-xs text-primary hover:text-primary-variant transition-colors font-medium" href="#" id="forgot-link">Forgot password?</a>
+</div>
+<input autocomplete="current-password" class="input-field w-full py-3 px-4 rounded-lg text-on-surface placeholder:text-on-surface-variant/30" id="password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" required="" type="password"/>
+</div>
+<button class="w-full btn-primary hover:brightness-110 text-white py-4 rounded-pill font-semibold transition-all active:scale-[0.98] mt-2 shadow-lg shadow-primary/20" id="submit-btn">
+                        Continue
+                    </button>
+</form>
+<div class="relative my-10">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-border-subtle"></div>
+</div>
+<div class="relative flex justify-center text-[10px]">
+<span class="bg-card px-4 text-on-surface-variant uppercase tracking-widest font-medium">Or continue with</span>
+</div>
+</div>
+<!-- Social Auth -->
+<div class="grid grid-cols-2 gap-4 mb-6">
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-pill border border-border-subtle hover:bg-input-bg/50 transition-all active:scale-[0.98]">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.90 3.14-1.64 4.02-1.04 1.04-2.66 2.14-5.64 2.14-4.8 0-8.62-3.88-8.62-8.68s3.82-8.68 8.62-8.68c2.6 0 4.5 1.02 5.92 2.34l2.32-2.32c-2.02-1.92-4.66-3.1-8.24-3.1-6.12 0-11.14 4.96-11.14 11.12s5.02 11.12 11.14 11.12c3.3 0 5.82-1.1 7.74-3.12 2-2 2.64-4.78 2.64-7.04 0-.44-.04-.88-.12-1.28h-10.28z" fill="currentColor"></path>
+</svg>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-pill border border-border-subtle hover:bg-input-bg/50 transition-all active:scale-[0.98]">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" fill="currentColor"></path>
+</svg>
+<span class="text-sm font-medium">LinkedIn</span>
+</button>
+</div>
+<div class="text-center space-y-3">
+<a class="inline-block text-sm text-primary hover:underline font-medium" href="#">Continue with magic link â</a>
+<p class="text-[11px] text-on-surface-variant opacity-60">We never share your data</p>
+</div>
+</div>
+<div class="flex justify-center gap-8 px-4">
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Privacy</a>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Terms</a>
+<span class="text-xs text-on-surface-variant/40 font-medium">Â© 2026 VOCA</span>
+</div>
+</div>
+</main>
+<script>
+        function switchTab(type) {
+            const btnSignIn = document.getElementById('tab-signin');
+            const btnSignUp = document.getElementById('tab-signup');
+            const nameContainer = document.getElementById('name-field-container');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const submitBtn = document.getElementById('submit-btn');
+            const forgotLink = document.getElementById('forgot-link');
+            const passwordInput = document.getElementById('password');
+
+            if (type === 'signup') {
+                btnSignUp.classList.add('tab-active');
+                btnSignUp.classList.remove('text-on-surface-variant');
+                btnSignIn.classList.remove('tab-active');
+                btnSignIn.classList.add('text-on-surface-variant');
+                
+                nameContainer.style.maxHeight = '100px';
+                nameContainer.style.opacity = '1';
+                nameContainer.style.marginBottom = '1.5rem';
+                
+                title.innerText = 'Create your account';
+                subtitle.innerText = 'Join thousands of professionals using VOCA.';
+                submitBtn.innerText = 'Create account';
+                forgotLink.style.display = 'none';
+                passwordInput.autocomplete = "new-password";
+            } else {
+                btnSignIn.classList.add('tab-active');
+                btnSignIn.classList.remove('text-on-surface-variant');
+                btnSignUp.classList.remove('tab-active');
+                btnSignUp.classList.add('text-on-surface-variant');
+                
+                nameContainer.style.maxHeight = '0';
+                nameContainer.style.opacity = '0';
+                nameContainer.style.marginBottom = '0';
+                
+                title.innerText = 'Welcome back';
+                subtitle.innerText = 'Enter your credentials to access your dashboard.';
+                submitBtn.innerText = 'Continue';
+                forgotLink.style.display = 'block';
+                passwordInput.autocomplete = "current-password";
+            }
+        }
+
+        // Network Animation Generator
+        const networkCanvas = document.getElementById('network-canvas');
+        const lineCount = 12;
+
+        for (let i = 0; i < lineCount; i++) {
+            const line = document.createElement('div');
+            line.className = 'network-line animate-flow';
+            line.style.top = `${Math.random() * 100}%`;
+            line.style.opacity = `${0.05 + Math.random() * 0.1}`;
+            // Vary speeds and delays for a more organic feel
+            const duration = 20 + Math.random() * 40;
+            const delay = Math.random() * -20;
+            line.style.animationDuration = `${duration}s`;
+            line.style.animationDelay = `${delay}s`;
+            networkCanvas.appendChild(line);
+        }
+    </script>
+</body></html>

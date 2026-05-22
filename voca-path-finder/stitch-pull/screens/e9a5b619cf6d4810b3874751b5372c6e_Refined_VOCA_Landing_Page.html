@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Career Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#111418",
+                    "background": "#0b0e12",
+                    "primary": "#0ea5a0",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#e1e2e8",
+                    "on-surface-variant": "#7e8494",
+                    "border-subtle": "rgba(255, 255, 255, 0.07)",
+                    "match-gold": "#c9933a",
+                    "match-gold-bg": "rgba(201,147,58,0.10)",
+                    "match-gold-border": "rgba(201,147,58,0.30)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "display": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #0b0e12; color: #e1e2e8; }
+        h1, h2, h3, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .primary-cta {
+            background: linear-gradient(135deg, #0ea5a0 0%, #0d9390 100%);
+            color: white;
+        }
+        .nav-bg {
+            background: rgba(19, 22, 27, 0.80);
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full nav-bg backdrop-blur-md border-b border-border-subtle z-50">
+<div class="flex justify-between items-center h-16 px-6 md:px-12 max-w-[1440px] mx-auto w-full">
+<div class="text-[24px] font-headline font-semibold text-[#e8e9ec] tracking-tight">VOCA</div>
+<div class="hidden md:flex gap-10 items-center">
+<a class="font-body text-[14px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Product</a>
+<a class="font-body text-[14px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Why VOCA</a>
+<a class="font-body text-[14px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Privacy</a>
+</div>
+<div class="flex gap-6 items-center">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors font-body text-[14px]">Sign in</button>
+<button class="primary-cta px-6 py-2.5 rounded-full font-body text-[14px] font-semibold hover:opacity-90 active:scale-95 transition-all">Get started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden px-6">
+<div class="max-w-[1440px] mx-auto md:px-12">
+<div class="text-left max-w-4xl">
+<p class="text-[14px] font-body text-on-surface-variant mb-4">Career intelligence for real decisions</p>
+<h1 class="text-[clamp(2.75rem,1rem+5.5vw,6rem)] font-headline font-bold leading-[1.05] tracking-tight mb-8">
+                Know where you're headed.
+            </h1>
+<p class="text-[18px] md:text-[24px] text-on-surface-variant max-w-2xl mb-6 font-body leading-relaxed">
+                VOCA maps your skills, experience, and goals to the careers youâre best built for.
+            </p>
+<p class="text-on-surface-variant font-body mb-10">Clear recommendations. Explainable reasoning. A faster path forward.</p>
+<div class="flex flex-col sm:flex-row gap-4 items-start mb-24">
+<button class="px-8 py-4 primary-cta rounded-full font-semibold transition-all">
+                    Get my career map
+                </button>
+<button class="px-8 py-4 text-on-surface hover:bg-white/5 rounded-full transition-colors font-semibold">
+                    See sample results
+                </button>
+</div>
+</div>
+<!-- Hero Preview Asset -->
+<div class="relative w-full border border-border-subtle rounded-xl bg-surface/30 overflow-hidden">
+<div class="p-8 md:p-12">
+<div class="max-w-md bg-[#1d2024] border border-border-subtle rounded-xl p-8 space-y-6">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-[11px] font-body uppercase tracking-widest text-on-surface-variant">Recommended Role</span>
+<h3 class="text-2xl font-headline font-bold mt-1">AI Product Manager</h3>
+</div>
+<div class="bg-match-gold-bg border border-match-gold-border text-match-gold px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">98% Match</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Market Demand</span>
+<span class="text-on-surface font-semibold">High</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Skill Gap</span>
+<span class="text-on-surface font-semibold">Minimal</span>
+</div>
+</div>
+<div class="pt-4 border-t border-border-subtle">
+<p class="text-xs text-on-surface-variant leading-relaxed">Based on your experience in technical delivery and strategic planning.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Problem Section -->
+<section class="py-24 border-t border-border-subtle">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+<!-- Pain Point 1 -->
+<div class="space-y-4">
+<span class="text-4xl font-headline font-bold text-white/10">01</span>
+<h3 class="text-2xl font-headline font-semibold">Too much noise</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Job boards, career content, and trend reports rarely tell you what fits you. VOCA filters the noise to reveal the paths that resonate.</p>
+</div>
+<!-- Pain Point 2 -->
+<div class="space-y-4">
+<span class="text-4xl font-headline font-bold text-white/10">02</span>
+<h3 class="text-2xl font-headline font-semibold">Advice without context</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Standard templates miss how markets evolve. We bridge the gap with real-time intelligence on whatâs emerging next for your profile.</p>
+</div>
+<!-- Pain Point 3 -->
+<div class="space-y-4">
+<span class="text-4xl font-headline font-bold text-white/10">03</span>
+<h3 class="text-2xl font-headline font-semibold">Unclear next steps</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Generic advice doesn't build extraordinary careers. VOCA provides a singular strategy designed for your specific trajectory.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-24 border-t border-border-subtle bg-surface/10">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12">
+<div class="mb-20 text-left">
+<h2 class="text-3xl md:text-4xl font-headline font-bold mb-4">Precision in three movements</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+<!-- Step 1 (Featured) -->
+<div class="md:col-span-6 p-8 border border-border-subtle bg-surface/40 rounded-xl space-y-6">
+<span class="text-2xl font-headline font-bold text-primary">01</span>
+<h4 class="text-2xl font-headline font-bold">Tell VOCA about you</h4>
+<p class="text-on-surface-variant text-lg leading-relaxed">Answer a short set of questions about your skills, goals, and how you like to work. Our AI extracts your hidden expertise.</p>
+</div>
+<!-- Steps 2 & 3 -->
+<div class="md:col-span-6 grid grid-cols-1 gap-8">
+<div class="p-8 border border-border-subtle bg-surface/20 rounded-xl space-y-4">
+<span class="text-xl font-headline font-bold text-primary">02</span>
+<h4 class="text-xl font-headline font-bold">See what aligns</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">VOCA compares your profile against role patterns, adjacent paths, and skill signals to find the highest probability of success.</p>
+</div>
+<div class="p-8 border border-border-subtle bg-surface/20 rounded-xl space-y-4">
+<span class="text-xl font-headline font-bold text-primary">03</span>
+<h4 class="text-xl font-headline font-bold">Get your career map</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Receive focused recommendations, match reasoning, and clear next moves. A living blueprint for your professional future.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sample Results Section -->
+<section class="py-24 border-t border-border-subtle">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-16">
+<div class="flex-1 space-y-6">
+<h2 class="text-3xl md:text-5xl font-headline font-bold">See how your fit becomes clearer</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-xl">
+                Each recommendation includes a match score, the reasons behind it, and the skills that matter most.
+            </p>
+</div>
+<div class="flex-1 w-full max-w-md">
+<!-- Result Card -->
+<div class="bg-[#1d2024] border border-border-subtle rounded-xl p-8 space-y-8 text-left">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-[11px] font-body uppercase tracking-widest text-on-surface-variant">Recommended Pivot</span>
+<h3 class="text-2xl font-headline font-bold mt-1">Technical Creative Director</h3>
+</div>
+<div class="bg-match-gold-bg border border-match-gold-border text-match-gold px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">94% Match</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">Your background in system design and narrative production makes you a top-tier candidate for high-scale creative leadership.</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<div class="text-[10px] font-body text-on-surface-variant uppercase">Market Demand</div>
+<div class="text-lg font-headline font-bold text-on-surface">Very High</div>
+</div>
+<div class="space-y-1">
+<div class="text-[10px] font-body text-on-surface-variant uppercase">Skill Overlap</div>
+<div class="text-lg font-headline font-bold text-on-surface">88%</div>
+</div>
+</div>
+<button class="w-full py-4 primary-cta rounded-full text-sm font-bold uppercase tracking-widest transition-all">
+                    Explore this path
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust / Privacy Section -->
+<section class="py-24 border-t border-border-subtle">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12 text-left">
+<div class="max-w-3xl">
+<h2 class="text-3xl md:text-4xl font-headline font-bold mb-8">Privacy-first by design</h2>
+<p class="text-on-surface-variant text-xl font-body leading-relaxed mb-12">
+                Your answers stay yours. VOCA is built to explain why it recommends something, not just what it recommends.
+            </p>
+<div class="flex flex-col md:flex-row gap-12 text-on-surface-variant">
+<div class="text-sm font-body font-semibold tracking-wider uppercase">Explainable recommendations</div>
+<div class="text-sm font-body font-semibold tracking-wider uppercase">Privacy-first handling</div>
+<div class="text-sm font-body font-semibold tracking-wider uppercase">Built for high-trust decisions</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-background py-16 border-t border-border-subtle">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-12">
+<div class="space-y-2 text-center md:text-left">
+<div class="text-xl font-headline font-bold text-on-surface">VOCA</div>
+<p class="font-body text-[13px] text-on-surface-variant">Â© 2026 VOCA. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 items-center">
+<a class="font-body text-[13px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-[13px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-[13px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Career Insights</a>
+<a class="font-body text-[13px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>

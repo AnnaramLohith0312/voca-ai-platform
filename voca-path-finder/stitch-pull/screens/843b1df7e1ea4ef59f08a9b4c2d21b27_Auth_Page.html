@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Auth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-bright": "#36393e",
+                        "surface-dim": "#111418",
+                        "primary-fixed-dim": "#5ed9d3",
+                        "on-primary-fixed": "#00201f",
+                        "on-background": "#e1e2e8",
+                        "on-tertiary-fixed-variant": "#78310c",
+                        "on-tertiary-container": "#521b00",
+                        "secondary-fixed-dim": "#f1be63",
+                        "tertiary": "#ffb597",
+                        "background": "#111418",
+                        "inverse-on-surface": "#2e3135",
+                        "secondary": "#f1be63",
+                        "surface-container": "#1d2024",
+                        "on-secondary-fixed": "#271900",
+                        "on-primary": "#003735",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#323539",
+                        "primary-container": "#0ea5a0",
+                        "surface-tint": "#5ed9d3",
+                        "surface": "#111418",
+                        "primary-fixed": "#7df6ef",
+                        "primary": "#5ed9d3",
+                        "on-tertiary": "#581d00",
+                        "on-secondary-fixed-variant": "#5f4100",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffdeaa",
+                        "outline": "#869392",
+                        "tertiary-container": "#d97b51",
+                        "on-error": "#690005",
+                        "on-surface": "#e1e2e8",
+                        "on-secondary-container": "#ffd694",
+                        "on-surface-variant": "#bcc9c8",
+                        "secondary-container": "#805a00",
+                        "surface-container-high": "#272a2f",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#323539",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "on-primary-fixed-variant": "#00504d",
+                        "surface-container-low": "#191c20",
+                        "on-secondary": "#422c00",
+                        "surface-container-lowest": "#0b0e12",
+                        "inverse-primary": "#006a66",
+                        "on-primary-container": "#003331",
+                        "outline-variant": "#3d4948",
+                        "on-tertiary-fixed": "#360f00",
+                        "inverse-surface": "#e1e2e8",
+                        "border-subtle": "rgba(255, 255, 255, 0.08)"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "display": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0e12;
+            color: #e1e2e8;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(29, 32, 36, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .animated-bg {
+            background: radial-gradient(circle at 50% 50%, #111418 0%, #0b0e12 100%);
+            overflow: hidden;
+        }
+        .network-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, #5ed9d3, transparent);
+            height: 1px;
+            opacity: 0.1;
+            width: 100%;
+        }
+        .pill-tab-active {
+            background: #5ed9d3;
+            color: #003735;
+        }
+        .auth-input:focus {
+            outline: none;
+            border-bottom-color: #5ed9d3;
+            box-shadow: 0 4px 12px -4px rgba(94, 217, 211, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-stretch overflow-hidden selection:bg-primary/30 selection:text-primary">
+<!-- Left Panel: Brand Experience -->
+<section class="hidden lg:flex flex-1 relative flex-col justify-between p-12 animated-bg border-r border-border-subtle">
+<div class="z-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<h1 class="text-2xl font-headline font-semibold tracking-tighter text-on-surface">VOCA</h1>
+</div>
+</div>
+<div class="z-10 max-w-xl">
+<h2 class="font-headline text-6xl font-semibold leading-[1.1] tracking-tight mb-6">
+                Your career, <br/>
+<span class="text-primary">structured.</span>
+</h2>
+<p class="text-on-surface-variant text-lg max-w-md font-body leading-relaxed">
+                Experience the next generation of cinematic intelligence. Precision-engineered career navigation for high-stakes professionals.
+            </p>
+</div>
+<div class="z-10 flex gap-12">
+<div>
+<div class="text-secondary font-headline text-3xl font-bold">98%</div>
+<div class="text-label-xs uppercase tracking-widest text-on-surface-variant opacity-60">Match Accuracy</div>
+</div>
+<div>
+<div class="text-primary font-headline text-3xl font-bold">12k+</div>
+<div class="text-label-xs uppercase tracking-widest text-on-surface-variant opacity-60">Success Paths</div>
+</div>
+</div>
+<!-- Background Graphics -->
+<div class="absolute inset-0 pointer-events-none opacity-40" id="network-canvas">
+<!-- Dynamically generated lines via JS -->
+</div>
+<img class="absolute inset-0 object-cover opacity-10 mix-blend-overlay" data-alt="A cinematic, high-resolution aerial view of a futuristic digital network spanning across a dark landscape. Glowing teal and gold data nodes pulse with light, connected by intricate white filament lines. The overall aesthetic is dark-mode corporate, emphasizing vast digital space, precision intelligence, and sophisticated technological architecture. The atmosphere is calm and authoritative with subtle light bleeds and deep charcoal gradients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKL9Th6BnpWHpcjHEx6Fm1DlqB-0HYLsXgbxm00pSbdDx9bm-8F6ezaYvCMdC0SOf7KuttrA0zNJZzHzvdqXZaJskiDjQ5Az5ABRbfq-fCYWRUK9glmLpj6ZDTLFnCYm4dQPrMVRRrjKveMNa8on7nte64USJJiEsaXJCgtjIpahuib0PYoWpqAlWwD0He00R39B5hFvhRT1Quu9uX0qG3o0F96lTDu7oGmhIMwok-42zaV1-4_eSEUBIpPa9tU69uXBPH2aYPFJj0"/>
+</section>
+<!-- Right Panel: Auth Container -->
+<main class="flex-1 flex items-center justify-center p-6 md:p-12 relative">
+<!-- Subtle glow effects -->
+<div class="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/5 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-secondary/5 blur-[120px] rounded-full"></div>
+<div class="w-full max-w-md space-y-8 relative z-10">
+<!-- Mobile Logo -->
+<div class="lg:hidden flex justify-center mb-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<span class="text-xl font-headline font-semibold tracking-tighter">VOCA</span>
+</div>
+</div>
+<div class="glass-panel p-8 md:p-10 rounded-xl shadow-2xl">
+<header class="text-center mb-10">
+<h3 class="font-headline text-2xl font-medium mb-2">Welcome to VOCA</h3>
+<p class="text-on-surface-variant text-sm">Enter your credentials to access your intelligence dashboard.</p>
+</header>
+<!-- Auth Tabs -->
+<div class="flex bg-surface-container-lowest p-1 rounded-full mb-8 border border-border-subtle">
+<button class="flex-1 py-2 text-sm font-medium rounded-full transition-all duration-300 pill-tab-active" id="tab-signin" onclick="switchTab('signin')">
+                        Sign In
+                    </button>
+<button class="flex-1 py-2 text-sm font-medium rounded-full text-on-surface-variant hover:text-on-surface transition-all duration-300" id="tab-signup" onclick="switchTab('signup')">
+                        Sign Up
+                    </button>
+</div>
+<!-- Form -->
+<form class="space-y-5" id="auth-form" onsubmit="return false">
+<div class="space-y-1">
+<label class="text-label-xs uppercase tracking-widest text-on-surface-variant ml-1">Email Address</label>
+<div class="relative group">
+<input class="auth-input w-full bg-surface-container-low border-b border-outline-variant py-3 px-4 rounded-t-lg transition-all text-on-surface placeholder:text-text-faint" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center px-1">
+<label class="text-label-xs uppercase tracking-widest text-on-surface-variant">Password</label>
+<a class="text-[10px] text-primary hover:underline uppercase tracking-widest" href="#">Forgot?</a>
+</div>
+<div class="relative group">
+<input class="auth-input w-full bg-surface-container-low border-b border-outline-variant py-3 px-4 rounded-t-lg transition-all text-on-surface placeholder:text-text-faint" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" type="password"/>
+</div>
+</div>
+<div class="hidden animate-in fade-in slide-in-from-top-2 duration-300 space-y-5" id="signup-fields">
+<div class="space-y-1">
+<label class="text-label-xs uppercase tracking-widest text-on-surface-variant ml-1">Confirm Password</label>
+<input class="auth-input w-full bg-surface-container-low border-b border-outline-variant py-3 px-4 rounded-t-lg transition-all text-on-surface placeholder:text-text-faint" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" type="password"/>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary py-4 rounded-full font-headline font-semibold tracking-wide shadow-lg shadow-primary/10 transition-all active:scale-95 group mt-4">
+<span id="submit-text">Sign In</span>
+<span class="material-symbols-outlined align-middle ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-border-subtle"></div>
+</div>
+<div class="relative flex justify-center text-xs">
+<span class="bg-[#1d2024] px-4 text-on-surface-variant uppercase tracking-[0.2em]">Or continue with</span>
+</div>
+</div>
+<!-- Social Auth -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-full border border-border-subtle bg-surface-container-lowest hover:bg-surface-container transition-colors active:scale-95">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.90 3.14-1.64 4.02-1.04 1.04-2.66 2.14-5.64 2.14-4.8 0-8.62-3.88-8.62-8.68s3.82-8.68 8.62-8.68c2.6 0 4.5 1.02 5.92 2.34l2.32-2.32c-2.02-1.92-4.66-3.1-8.24-3.1-6.12 0-11.14 4.96-11.14 11.12s5.02 11.12 11.14 11.12c3.3 0 5.82-1.1 7.74-3.12 2-2 2.64-4.78 2.64-7.04 0-.44-.04-.88-.12-1.28h-10.28z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-full border border-border-subtle bg-surface-container-lowest hover:bg-surface-container transition-colors active:scale-95">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" fill="#0077B5"></path>
+</svg>
+<span class="text-sm font-medium">LinkedIn</span>
+</button>
+</div>
+</div>
+<footer class="flex justify-between items-center px-4">
+<p class="text-label-xs text-on-surface-variant uppercase tracking-widest opacity-60">Â© 2024 VOCA</p>
+<div class="flex gap-4">
+<a class="text-label-xs text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest" href="#">Privacy</a>
+<a class="text-label-xs text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest" href="#">Terms</a>
+</div>
+</footer>
+</div>
+</main>
+<script>
+        function switchTab(type) {
+            const btnSignIn = document.getElementById('tab-signin');
+            const btnSignUp = document.getElementById('tab-signup');
+            const signupFields = document.getElementById('signup-fields');
+            const submitText = document.getElementById('submit-text');
+
+            if (type === 'signup') {
+                btnSignUp.classList.add('pill-tab-active');
+                btnSignUp.classList.remove('text-on-surface-variant');
+                btnSignIn.classList.remove('pill-tab-active');
+                btnSignIn.classList.add('text-on-surface-variant');
+                signupFields.classList.remove('hidden');
+                submitText.innerText = 'Create Account';
+            } else {
+                btnSignIn.classList.add('pill-tab-active');
+                btnSignIn.classList.remove('text-on-surface-variant');
+                btnSignUp.classList.remove('pill-tab-active');
+                btnSignUp.classList.add('text-on-surface-variant');
+                signupFields.classList.add('hidden');
+                submitText.innerText = 'Sign In';
+            }
+        }
+
+        // Background Animation Logic
+        const container = document.getElementById('network-canvas');
+        const lineCount = 15;
+
+        for (let i = 0; i < lineCount; i++) {
+            const line = document.createElement('div');
+            line.className = 'network-line';
+            line.style.top = `${Math.random() * 100}%`;
+            line.style.left = `-100%`;
+            line.style.animation = `flow ${10 + Math.random() * 20}s linear infinite`;
+            line.style.animationDelay = `${Math.random() * 10}s`;
+            line.style.opacity = `${0.05 + Math.random() * 0.1}`;
+            container.appendChild(line);
+        }
+
+        // Keyframe injection
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes flow {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(200%); }
+            }
+            @keyframes fade-in {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes slide-in-from-top-2 {
+                from { transform: translateY(-0.5rem); }
+                to { transform: translateY(0); }
+            }
+            .animate-in {
+                animation: fade-in 0.3s ease-out forwards, slide-in-from-top-2 0.3s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body></html>

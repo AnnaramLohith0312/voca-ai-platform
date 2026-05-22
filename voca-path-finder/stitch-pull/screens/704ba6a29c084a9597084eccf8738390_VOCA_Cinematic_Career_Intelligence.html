@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Cinematic Career Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcd",
+                    "surface-bright": "#36393e",
+                    "surface-dim": "#111418",
+                    "primary-fixed-dim": "#5ed9d3",
+                    "on-primary-fixed": "#00201f",
+                    "on-background": "#e1e2e8",
+                    "on-tertiary-fixed-variant": "#78310c",
+                    "on-tertiary-container": "#521b00",
+                    "secondary-fixed-dim": "#f1be63",
+                    "tertiary": "#ffb597",
+                    "background": "#111418",
+                    "inverse-on-surface": "#2e3135",
+                    "secondary": "#f1be63",
+                    "surface-container": "#1d2024",
+                    "on-secondary-fixed": "#271900",
+                    "on-primary": "#003735",
+                    "error-container": "#93000a",
+                    "surface-container-highest": "#323539",
+                    "primary-container": "#0ea5a0",
+                    "surface-tint": "#5ed9d3",
+                    "surface": "#111418",
+                    "primary-fixed": "#7df6ef",
+                    "primary": "#5ed9d3",
+                    "on-tertiary": "#581d00",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#ffdeaa",
+                    "outline": "#869392",
+                    "tertiary-container": "#d97b51",
+                    "on-error": "#690005",
+                    "on-surface": "#e1e2e8",
+                    "on-secondary-container": "#ffd694",
+                    "on-surface-variant": "#bcc9c8",
+                    "secondary-container": "#805a00",
+                    "surface-container-high": "#272a2f",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#323539",
+                    "tertiary-fixed-dim": "#ffb597",
+                    "on-primary-fixed-variant": "#00504d",
+                    "surface-container-low": "#191c20",
+                    "on-secondary": "#422c00",
+                    "surface-container-lowest": "#0b0e12",
+                    "inverse-primary": "#006a66",
+                    "on-primary-container": "#003331",
+                    "outline-variant": "#3d4948",
+                    "on-tertiary-fixed": "#360f00",
+                    "inverse-surface": "#e1e2e8",
+                    "border-subtle": "rgba(255, 255, 255, 0.08)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "display": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #0b0e12; color: #e1e2e8; }
+        h1, h2, h3, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .glass-card {
+            background: rgba(25, 28, 32, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(94, 217, 211, 0.05) 0%, rgba(11, 14, 18, 0) 70%);
+        }
+        .text-glow-teal { text-shadow: 0 0 20px rgba(94, 217, 211, 0.3); }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full bg-surface/80 backdrop-blur-md border-b border-subtle shadow-sm z-50">
+<div class="flex justify-between items-center h-16 px-6 md:px-12 max-w-[1440px] mx-auto w-full">
+<div class="text-2xl font-headline font-semibold tracking-tighter text-on-surface">VOCA</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-headline text-label-sm uppercase tracking-wider text-primary font-medium border-b-2 border-primary pb-1" href="#">Product</a>
+<a class="font-headline text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" href="#">Intelligence</a>
+<a class="font-headline text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" href="#">About</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="hidden sm:block text-on-surface hover:opacity-80 transition-opacity font-label text-label-sm">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label text-label-sm font-semibold hover:opacity-90 active:scale-95 transition-all">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+<div class="absolute inset-0 hero-gradient -z-10"></div>
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-full h-full opacity-20 -z-20 pointer-events-none">
+<div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+</div>
+<div class="max-w-[1440px] mx-auto px-6 md:px-12 text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-8">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-label font-semibold uppercase tracking-[0.2em] text-primary">Intelligence Redefined</span>
+</div>
+<h1 class="text-[44px] md:text-[88px] font-headline font-semibold leading-[1.1] tracking-tight mb-8">
+                Map your direction with <br/> <span class="text-primary text-glow-teal italic">cinematic precision.</span>
+</h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-12 font-body leading-relaxed">
+                Guided, personalized career clarity for the modern professional. Navigate the future of work with intelligence that sees the whole picture.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<button class="group relative px-8 py-4 bg-primary text-on-primary rounded-full font-semibold overflow-hidden transition-all hover:pr-12">
+<span class="relative z-10">Get my career map</span>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all">arrow_forward</span>
+</button>
+<button class="px-8 py-4 border border-subtle bg-surface-container-low/50 hover:bg-surface-container-high rounded-full transition-colors text-on-surface">
+                    Watch the demo
+                </button>
+</div>
+</div>
+<!-- Hero Decorative Asset -->
+<div class="mt-24 max-w-5xl mx-auto px-6 relative">
+<div class="glass-card rounded-xl p-2 md:p-4 rotate-x-12 shadow-2xl relative">
+<div class="rounded-lg overflow-hidden aspect-video bg-surface-container-lowest relative">
+<img class="w-full h-full object-cover opacity-60" data-alt="A sophisticated digital dashboard interface visualizing career trajectories with flowing teal and gold lines against a deep charcoal background. The interface shows intricate node networks representing skills and market demands, presented in a cinematic, low-light aesthetic with high-end glassmorphism effects and sharp typography. Minimalist data points glow softly, suggesting a high-tech intelligence environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtti-caR0bn6o6Az2MUCgx4OZ9F63LHQFFgQBlUbkhLSGvkND01DhNiqLQMx7rKOKfMol9a3U99VnycLlDDt29HiXmIWk6ysROdIq0GzOTCZLyUT4cv3uSUV8mzoYSNBP5aYYz91Fdr2pqnAvQLpuWJ4vVAs50AAk1m_THbfM-PW0xHm3JTpM6D5ML55TeenofRTsh6XKJpCE0p8MA87aZbWRmTaXda_n2GiyQufhMb7NBWOWVt-ASpFf6vLSMu74WKCZoYdsOtjBT"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+<div class="space-y-2">
+<div class="h-1 w-32 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+<div class="text-[10px] font-label uppercase tracking-widest text-primary">Trajectory Optimization Active</div>
+</div>
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-surface-bright"></div>
+<div class="w-10 h-10 rounded-full border-2 border-surface bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">query_stats</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Problem Section -->
+<section class="py-24 bg-surface-container-lowest relative">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12">
+<div class="mb-16">
+<h2 class="text-32 md:text-48 font-headline font-medium mb-4">The career maze is noisier <br/> than ever.</h2>
+<div class="w-20 h-1 bg-primary"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Pain Point 1 -->
+<div class="p-8 border border-subtle bg-surface-container-low hover:bg-surface-container transition-all group">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<h3 class="text-xl font-headline font-semibold mb-4">Analysis Paralysis</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">Too many options leading to stagnation. VOCA filters the noise to reveal the paths that actually resonate with your core ambition.</p>
+</div>
+<!-- Pain Point 2 -->
+<div class="p-8 border border-subtle bg-surface-container-low hover:bg-surface-container transition-all group">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary">trending_up</span>
+</div>
+<h3 class="text-xl font-headline font-semibold mb-4">Skill-Market Gap</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">Traditional advice misses how markets evolve. We bridge the gap with real-time intelligence on whatâs emerging next.</p>
+</div>
+<!-- Pain Point 3 -->
+<div class="p-8 border border-subtle bg-surface-container-low hover:bg-surface-container transition-all group">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+</div>
+<h3 class="text-xl font-headline font-semibold mb-4">Generic Advice</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">Generic templates don't build extraordinary careers. VOCA provides a singular strategy designed for your specific trajectory.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-24 overflow-hidden">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12">
+<div class="text-center mb-20">
+<span class="text-xs font-label uppercase tracking-[0.3em] text-primary-container mb-4 block">The Methodology</span>
+<h2 class="text-32 md:text-48 font-headline font-medium">Precision in three movements</h2>
+</div>
+<div class="relative">
+<!-- Connecting Line (Desktop) -->
+<div class="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent -translate-y-1/2"></div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center space-y-6">
+<div class="w-16 h-16 rounded-full bg-surface-container-high border-2 border-primary flex items-center justify-center text-xl font-headline font-bold text-primary relative z-10 shadow-[0_0_30px_rgba(94,217,211,0.2)]">1</div>
+<h4 class="text-xl font-headline">Conversation</h4>
+<p class="text-on-surface-variant text-sm max-w-xs">An AI-driven depth dialogue that extracts your hidden expertise and long-term intentions.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center space-y-6">
+<div class="w-16 h-16 rounded-full bg-surface-container-high border-2 border-primary flex items-center justify-center text-xl font-headline font-bold text-primary relative z-10 shadow-[0_0_30px_rgba(94,217,211,0.2)]">2</div>
+<h4 class="text-xl font-headline">Adaptive Calibration</h4>
+<p class="text-on-surface-variant text-sm max-w-xs">Our intelligence engine cross-references your profile against global market shifts in real-time.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center space-y-6">
+<div class="w-16 h-16 rounded-full bg-surface-container-high border-2 border-primary flex items-center justify-center text-xl font-headline font-bold text-primary relative z-10 shadow-[0_0_30px_rgba(94,217,211,0.2)]">3</div>
+<h4 class="text-xl font-headline">Intelligence Mapping</h4>
+<p class="text-on-surface-variant text-sm max-w-xs">Receive a living career blueprint with specific milestones, skill pivots, and exit strategies.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sample Results Section -->
+<section class="py-24 bg-surface-container-lowest">
+<div class="max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-16">
+<div class="flex-1 space-y-8">
+<h2 class="text-32 md:text-48 font-headline font-medium">Your future, <br/> quantified.</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                    Stop guessing. Every recommendation is backed by a Match Scoreâa synthesis of your intrinsic skills, potential growth velocity, and market durability.
+                </p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-base" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="text-sm font-label font-medium uppercase tracking-wider">Durability Ranking</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-base">hub</span>
+<span class="text-sm font-label font-medium uppercase tracking-wider">Skill Adjacency Mapping</span>
+</li>
+</ul>
+</div>
+<div class="flex-1 w-full max-w-md">
+<!-- Result Card -->
+<div class="glass-card rounded-2xl p-8 relative overflow-hidden group hover:border-primary/30 transition-all duration-500">
+<div class="absolute top-0 right-0 p-4">
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">98% Match</div>
+</div>
+<div class="space-y-6">
+<div>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Recommended Pivot</span>
+<h3 class="text-2xl font-headline font-bold mt-1">Cinematic AI Architect</h3>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-xs font-label text-on-surface-variant">
+<span>Core Alignment</span>
+<span class="text-primary">High</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-11/12 rounded-full"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-container-high rounded-lg border border-subtle">
+<div class="text-[10px] font-label text-on-surface-variant uppercase mb-1">Market Demand</div>
+<div class="text-lg font-headline font-bold text-secondary">Extreme</div>
+</div>
+<div class="p-3 bg-surface-container-high rounded-lg border border-subtle">
+<div class="text-[10px] font-label text-on-surface-variant uppercase mb-1">Skill Gap</div>
+<div class="text-lg font-headline font-bold text-on-surface">Minimal</div>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg border border-primary/20 bg-primary/5 text-primary text-sm font-bold uppercase tracking-widest hover:bg-primary/10 transition-colors">
+                            Explore Trajectory
+                        </button>
+</div>
+<!-- Atmospheric light bleed -->
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-primary/10 blur-[60px] rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust / Privacy Section -->
+<section class="py-24 border-t border-subtle">
+<div class="max-w-4xl mx-auto px-6 text-center">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container mb-8 border border-subtle">
+<span class="material-symbols-outlined text-primary text-3xl">verified_user</span>
+</div>
+<h2 class="text-2xl md:text-32 font-headline font-medium mb-6">Privacy-first by design.</h2>
+<p class="text-on-surface-variant font-body leading-relaxed mb-12">
+                Your career ambition is yours alone. VOCA uses local-first processing for sensitive dialogue data and strictly explainable AI. Every recommendation comes with a "Why" so youâre always in control of the logic behind your map.
+            </p>
+<div class="flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all">
+<span class="text-xs font-label font-bold tracking-[0.3em] uppercase">SOC2 Certified</span>
+<span class="text-xs font-label font-bold tracking-[0.3em] uppercase">GDPR Compliant</span>
+<span class="text-xs font-label font-bold tracking-[0.3em] uppercase">Explainable AI Framework</span>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest py-12 border-t border-subtle">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 md:px-24 gap-6 max-w-[1440px] mx-auto w-full">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-xl font-headline font-bold text-on-surface">VOCA</div>
+<p class="font-body text-label-xs text-on-surface-variant">Â© 2024 VOCA Cinematic Intelligence. All rights reserved.</p>
+</div>
+<div class="flex gap-8 items-center">
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Career Insights</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<!-- Interactive Atmospheric Micro-interaction Script -->
+<script>
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            // Subtle movement for hero background
+            const gradient = document.querySelector('.hero-gradient');
+            if (gradient) {
+                gradient.style.background = `radial-gradient(circle at ${mouseX * 100}% ${mouseY * 100}%, rgba(94, 217, 211, 0.08) 0%, rgba(11, 14, 18, 0) 70%)`;
+            }
+        });
+
+        // Simple Reveal Observer
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('translate-y-10');
+                    entry.target.classList.remove('opacity-0');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'translate-y-10', 'opacity-0');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

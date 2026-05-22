@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcd",
+                    "surface-bright": "#36393e",
+                    "surface-dim": "#111418",
+                    "primary-fixed-dim": "#5ed9d3",
+                    "on-primary-fixed": "#00201f",
+                    "on-background": "#e1e2e8",
+                    "on-tertiary-fixed-variant": "#78310c",
+                    "on-tertiary-container": "#521b00",
+                    "secondary-fixed-dim": "#f1be63",
+                    "tertiary": "#ffb597",
+                    "background": "#111418",
+                    "inverse-on-surface": "#2e3135",
+                    "secondary": "#f1be63",
+                    "surface-container": "#1d2024",
+                    "on-secondary-fixed": "#271900",
+                    "on-primary": "#003735",
+                    "error-container": "#93000a",
+                    "surface-container-highest": "#323539",
+                    "primary-container": "#0ea5a0",
+                    "surface-tint": "#5ed9d3",
+                    "surface": "#111418",
+                    "primary-fixed": "#7df6ef",
+                    "primary": "#5ed9d3",
+                    "on-tertiary": "#581d00",
+                    "on-secondary-fixed-variant": "#5f4100",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#ffdeaa",
+                    "outline": "#869392",
+                    "tertiary-container": "#d97b51",
+                    "on-error": "#690005",
+                    "on-surface": "#e1e2e8",
+                    "on-secondary-container": "#ffd694",
+                    "on-surface-variant": "#bcc9c8",
+                    "secondary-container": "#805a00",
+                    "surface-container-high": "#272a2f",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#323539",
+                    "tertiary-fixed-dim": "#ffb597",
+                    "on-primary-fixed-variant": "#00504d",
+                    "surface-container-low": "#191c20",
+                    "on-secondary": "#422c00",
+                    "surface-container-lowest": "#0b0e12",
+                    "inverse-primary": "#006a66",
+                    "on-primary-container": "#003331",
+                    "outline-variant": "#3d4948",
+                    "on-tertiary-fixed": "#360f00",
+                    "inverse-surface": "#e1e2e8",
+                    "border-subtle": "rgba(255, 255, 255, 0.08)"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "display": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #0b0e12; color: #e1e2e8; font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); }
+        .teal-glow { filter: drop-shadow(0 0 15px rgba(94, 217, 211, 0.2)); }
+        .gold-glow { filter: drop-shadow(0 0 15px rgba(241, 190, 99, 0.2)); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0e12; }
+        ::-webkit-scrollbar-thumb { background: #323539; border-radius: 10px; }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full bg-surface/80 backdrop-blur-md border-b border-subtle z-50">
+<div class="flex justify-between items-center h-16 px-6 md:px-12 max-w-[1440px] mx-auto w-full">
+<div class="text-2xl font-headline font-semibold tracking-tighter text-on-surface">VOCA</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-headline text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" href="#">Product</a>
+<a class="font-headline text-label-sm uppercase tracking-wider text-primary font-medium border-b-2 border-primary pb-1" href="#">Intelligence</a>
+<a class="font-headline text-label-sm uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" href="#">About</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="text-on-surface-variant hover:text-on-surface font-headline text-label-sm uppercase tracking-wider transition-colors px-4 py-2">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-headline text-label-sm uppercase tracking-wider font-bold hover:opacity-90 active:scale-95 transition-all">Get Started</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-20 px-6 md:px-12 max-w-[1440px] mx-auto min-h-screen">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Main Results -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Hero Result Card -->
+<section class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative glass-card rounded-xl p-8 md:p-12 overflow-hidden">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+<div>
+<span class="font-label text-label-xs uppercase tracking-[0.2em] text-primary mb-3 block">Primary Trajectory</span>
+<h1 class="font-headline text-4xl md:text-5xl font-semibold tracking-tight text-on-surface">Cinematic AI Architect</h1>
+</div>
+<div class="flex flex-col items-center">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276" stroke-dashoffset="5.5" stroke-width="4"></circle>
+</svg>
+<span class="absolute font-headline text-2xl font-bold text-secondary">98%</span>
+</div>
+<span class="text-label-xs text-on-surface-variant mt-2 uppercase tracking-widest">Match Score</span>
+</div>
+</div>
+<p class="font-body text-body-lg text-on-surface-variant leading-relaxed max-w-2xl mb-10">
+                            Your aptitude for spatial intelligence and algorithmic narrative suggests a high-impact role at the intersection of production design and machine learning. This path leverages your technical rigor while fulfilling your need for creative authorship.
+                        </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-full font-headline font-bold text-label-sm uppercase tracking-widest flex items-center gap-3 hover:opacity-90 transition-all">
+                                Explore Path <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="border border-subtle text-on-surface px-8 py-4 rounded-full font-headline font-bold text-label-sm uppercase tracking-widest hover:bg-surface-container-high transition-all">
+                                Full Analysis
+                            </button>
+</div>
+<!-- Abstract background element -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+</section>
+<!-- Why This Fits Section -->
+<section>
+<div class="flex items-center gap-4 mb-8">
+<div class="h-[1px] flex-grow bg-border-subtle"></div>
+<h2 class="font-headline text-label-sm uppercase tracking-[0.3em] text-on-surface-variant">Strategic Rationale</h2>
+<div class="h-[1px] flex-grow bg-border-subtle"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass-card p-8 rounded-xl">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="psychology">psychology</span>
+</div>
+<h3 class="font-headline text-xl font-medium mb-3">Narrative Synthesis</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Your data shows a rare 94th percentile ability to translate complex logical structures into visual storytelling, a key requirement for next-gen cinematic toolsets.</p>
+</div>
+<div class="glass-card p-8 rounded-xl">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="font-headline text-xl font-medium mb-3">Autonomous Creativity</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Unlike traditional technical roles, this career path prioritizes self-directed output and creative "blue ocean" strategy where you define the standards.</p>
+</div>
+</div>
+</section>
+<!-- Skill Alignment Section -->
+<section class="glass-card rounded-xl p-8 md:p-12">
+<h2 class="font-headline text-2xl font-medium mb-8">Skill Blueprint Alignment</h2>
+<div class="space-y-8">
+<div class="space-y-3">
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-on-surface font-medium">Algorithmic Design</span>
+<span class="text-primary">Mastery (92%)</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000 ease-out" style="width: 92%"></div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-on-surface font-medium">Real-time Rendering</span>
+<span class="text-primary">Advanced (78%)</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000 ease-out" style="width: 78%"></div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-on-surface font-medium">Systems Thinking</span>
+<span class="text-primary">Mastery (88%)</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000 ease-out" style="width: 88%"></div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-on-surface font-medium">Production Pipeline</span>
+<span class="text-primary">Learning (45%)</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000 ease-out" style="width: 45%"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Utility Area -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Career Priorities Card -->
+<section class="glass-card rounded-xl p-8">
+<h3 class="font-headline text-lg font-medium mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">priority_high</span>
+                        Core Values Alignment
+                    </h3>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="mt-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-headline text-label-sm font-semibold uppercase tracking-wider text-on-surface">Exponential Growth</h4>
+<p class="text-label-sm text-on-surface-variant mt-1">Role is positioned in a high-velocity emerging market segment.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-headline text-label-sm font-semibold uppercase tracking-wider text-on-surface">Creative Autonomy</h4>
+<p class="text-label-sm text-on-surface-variant mt-1">High level of individual decision-making in technical execution.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="mt-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-headline text-label-sm font-semibold uppercase tracking-wider text-on-surface">Global Impact</h4>
+<p class="text-label-sm text-on-surface-variant mt-1">Product will influence cinematic standards globally for years.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Related Archetypes -->
+<section class="space-y-4">
+<h3 class="font-headline text-label-xs uppercase tracking-[0.2em] text-on-surface-variant px-2">Alternative Paths</h3>
+<div class="space-y-3">
+<div class="glass-card p-4 rounded-lg flex justify-between items-center group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">model_training</span>
+</div>
+<div>
+<div class="font-headline text-sm font-medium">Neural Curator</div>
+<div class="text-xs text-on-surface-variant">84% Match</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<div class="glass-card p-4 rounded-lg flex justify-between items-center group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">movie</span>
+</div>
+<div>
+<div class="font-headline text-sm font-medium">Logic Producer</div>
+<div class="text-xs text-on-surface-variant">79% Match</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Image Placeholder for Contextual Atmosphere -->
+<div class="rounded-xl overflow-hidden border border-subtle h-64 relative group">
+<img alt="Cinematic AI Tech" class="w-full h-full object-cover grayscale opacity-50 group-hover:scale-105 transition-transform duration-700" data-alt="A highly detailed close-up of a futuristic holographic interface showing 3D cinematic camera paths and neural network nodes. The lighting is low-key with a striking teal glow and metallic surfaces, reflecting a premium technical aesthetic. The atmosphere is quiet, intelligent, and precisely engineered, emphasizing the cinematic intelligence brand style with high contrast and sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2zBfclLFkcFX8eFhO5bylEDR5GvfMnaxfR1jXie--2yt69qvLK2NL2C1imTHY-pZTn2Qzuvs-QmVRNxPXxFccsjWHiKT_CnDcsF2aaKiZBFEXDdX64PJ0CftvkCWkqbNrlO6DfMv6ag_OXeQFsMLGdrHKziUXLSW3uj2tdBxxPR6BVhcR-w7zoten9SQ-PXAU9M-U1XRCaZnvg7nsFldh0hCtBm9AAwi2mlictBB01MVqtLWhGDuy7NKrKth1lisNDEBZRx23DUh_"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent flex items-end p-6">
+<span class="font-label text-label-xs text-on-surface uppercase tracking-widest bg-primary/20 backdrop-blur-sm px-3 py-1 rounded">Visualizing Success</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-subtle w-full py-12 mt-20">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 md:px-24 gap-6 max-w-[1440px] mx-auto">
+<div class="text-xl font-headline font-bold text-on-surface">VOCA</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Career Insights</a>
+<a class="font-body text-label-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<div class="font-body text-label-xs text-on-surface-variant">Â© 2024 VOCA Cinematic Intelligence. All rights reserved.</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for skill bars
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.bg-primary.rounded-full');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+
+        // Simple mouse tracking for background depth
+        document.addEventListener('mousemove', (e) => {
+            const heroCard = document.querySelector('.glass-card');
+            if (heroCard) {
+                const rect = heroCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                heroCard.style.setProperty('--mouse-x', `${x}px`);
+                heroCard.style.setProperty('--mouse-y', `${y}px`);
+            }
+        });
+    </script>
+</body></html>

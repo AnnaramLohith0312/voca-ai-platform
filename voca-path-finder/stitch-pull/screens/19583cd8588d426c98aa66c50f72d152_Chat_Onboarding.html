@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VOCA | Cinematic Intelligence Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Inter:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#ffdbcd",
+                      "surface-bright": "#36393e",
+                      "surface-dim": "#111418",
+                      "primary-fixed-dim": "#5ed9d3",
+                      "on-primary-fixed": "#00201f",
+                      "on-background": "#e1e2e8",
+                      "on-tertiary-fixed-variant": "#78310c",
+                      "on-tertiary-container": "#521b00",
+                      "secondary-fixed-dim": "#f1be63",
+                      "tertiary": "#ffb597",
+                      "background": "#111418",
+                      "inverse-on-surface": "#2e3135",
+                      "secondary": "#f1be63",
+                      "surface-container": "#1d2024",
+                      "on-secondary-fixed": "#271900",
+                      "on-primary": "#003735",
+                      "error-container": "#93000a",
+                      "surface-container-highest": "#323539",
+                      "primary-container": "#0ea5a0",
+                      "surface-tint": "#5ed9d3",
+                      "surface": "#111418",
+                      "primary-fixed": "#7df6ef",
+                      "primary": "#5ed9d3",
+                      "on-tertiary": "#581d00",
+                      "on-secondary-fixed-variant": "#5f4100",
+                      "error": "#ffb4ab",
+                      "secondary-fixed": "#ffdeaa",
+                      "outline": "#869392",
+                      "tertiary-container": "#d97b51",
+                      "on-error": "#690005",
+                      "on-surface": "#e1e2e8",
+                      "on-secondary-container": "#ffd694",
+                      "on-surface-variant": "#bcc9c8",
+                      "secondary-container": "#805a00",
+                      "surface-container-high": "#272a2f",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#323539",
+                      "tertiary-fixed-dim": "#ffb597",
+                      "on-primary-fixed-variant": "#00504d",
+                      "surface-container-low": "#191c20",
+                      "on-secondary": "#422c00",
+                      "surface-container-lowest": "#0b0e12",
+                      "inverse-primary": "#006a66",
+                      "on-primary-container": "#003331",
+                      "outline-variant": "#3d4948",
+                      "on-tertiary-fixed": "#360f00",
+                      "inverse-surface": "#e1e2e8",
+                      "border-subtle": "rgba(255, 255, 255, 0.08)",
+                      "success": "#4ea978"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.5rem",
+                      "lg": "1rem",
+                      "xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Space Grotesk"],
+                      "display": ["Space Grotesk"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0e12;
+            color: #e1e2e8;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .glass-panel {
+            background: rgba(29, 32, 36, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .chat-scroll-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chat-scroll-container::-webkit-scrollbar-thumb {
+            background: #3d4948;
+            border-radius: 10px;
+        }
+        .active-chip {
+            border-color: #5ed9d3;
+            background: rgba(94, 217, 211, 0.1);
+            color: #5ed9d3;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+<!-- Adaptive Progress Line -->
+<div class="fixed top-0 left-0 w-full h-[2px] bg-surface-container-highest z-[100]">
+<div class="h-full bg-primary shadow-[0_0_10px_rgba(94,217,211,0.5)] transition-all duration-700 ease-out" id="progress-bar" style="width: 35%;"></div>
+</div>
+<!-- Minimal TopAppBar (Filtered for Onboarding) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-subtle h-16 flex items-center px-6 md:px-12 max-w-[1440px] mx-auto left-1/2 -translate-x-1/2">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-headline font-semibold tracking-tighter text-on-surface">VOCA</span>
+<div class="h-4 w-px bg-outline-variant mx-2"></div>
+<span class="font-headline text-label-xs uppercase tracking-wider text-on-surface-variant">Intelligence Onboarding</span>
+</div>
+<div class="ml-auto">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-2 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+<span class="hidden md:block text-label-sm">Support</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto pt-24 pb-48 chat-scroll-container flex flex-col items-center">
+<div class="w-full max-w-[680px] px-6 flex flex-col gap-12">
+<!-- VOCA Message 1 -->
+<div class="flex flex-col items-start gap-4 opacity-0 animate-fade-in" style="animation-delay: 0.2s;">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">electric_bolt</span>
+</div>
+<span class="text-label-xs uppercase tracking-widest text-on-surface-variant font-semibold">VOCA System</span>
+</div>
+<div class="p-6 rounded-xl rounded-tl-sm surface-1 glass-panel text-body-base leading-relaxed text-on-surface shadow-2xl">
+                    Greetings. I am VOCA. Let's begin defining your trajectory in the cinematic intelligence landscape. To start, I need to understand your core fascination with the digital realm.
+                </div>
+</div>
+<!-- VOCA Message 2 (The Question) -->
+<div class="flex flex-col items-start gap-4 opacity-0 animate-fade-in" style="animation-delay: 0.8s;">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<span class="text-label-xs uppercase tracking-widest text-on-surface-variant font-semibold">VOCA System</span>
+</div>
+<div class="p-6 rounded-xl rounded-tl-sm bg-surface-container-low border border-border-subtle text-headline-md font-headline text-on-surface shadow-xl">
+                    What part of technology pulls you in most?
+                </div>
+</div>
+<!-- User Response Area (Placeholder for past answers if visible) -->
+<div class="hidden flex flex-col items-end gap-2 opacity-0" id="user-response-slot">
+<!-- Dynamically filled on selection -->
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Response Area -->
+<footer class="fixed bottom-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-border-subtle">
+<div class="max-w-[1440px] mx-auto px-6 py-8 flex flex-col items-center gap-6">
+<!-- Answer Chips Grid -->
+<div class="w-full max-w-[680px] grid grid-cols-2 md:grid-cols-4 gap-3 opacity-0 animate-fade-in" style="animation-delay: 1.4s;">
+<button class="group p-4 rounded-lg bg-surface-container-high border border-border-subtle hover:border-primary/50 transition-all duration-300 text-center flex flex-col items-center gap-2 active:scale-95" onclick="selectChip(this, 'Engineering')">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">terminal</span>
+<span class="text-label-sm font-medium">Engineering</span>
+</button>
+<button class="group p-4 rounded-lg bg-surface-container-high border border-border-subtle hover:border-primary/50 transition-all duration-300 text-center flex flex-col items-center gap-2 active:scale-95" onclick="selectChip(this, 'Design')">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">auto_awesome</span>
+<span class="text-label-sm font-medium">Design</span>
+</button>
+<button class="group p-4 rounded-lg bg-surface-container-high border border-border-subtle hover:border-primary/50 transition-all duration-300 text-center flex flex-col items-center gap-2 active:scale-95" onclick="selectChip(this, 'Strategy')">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">insights</span>
+<span class="text-label-sm font-medium">Strategy</span>
+</button>
+<button class="group p-4 rounded-lg bg-surface-container-high border border-border-subtle hover:border-primary/50 transition-all duration-300 text-center flex flex-col items-center gap-2 active:scale-95" onclick="selectChip(this, 'Data')">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">hub</span>
+<span class="text-label-sm font-medium">Data</span>
+</button>
+</div>
+<!-- Footer Decorative/Utility -->
+<div class="w-full max-w-[680px] flex justify-between items-center opacity-0 animate-fade-in" style="animation-delay: 1.8s;">
+<p class="text-label-xs text-on-surface-variant/60 font-medium">
+                    Select an option to calibrate VOCA
+                </p>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+<span class="text-label-xs uppercase tracking-tighter text-primary">System Online</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- Atmosphere Background -->
+<div class="fixed inset-0 -z-10 pointer-events-none">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px]"></div>
+</div>
+<script>
+        function selectChip(element, value) {
+            // Visual feedback
+            const allChips = document.querySelectorAll('button');
+            allChips.forEach(chip => {
+                chip.classList.remove('active-chip', 'border-primary/50');
+                chip.classList.add('border-border-subtle');
+            });
+            element.classList.add('active-chip');
+            element.classList.remove('border-border-subtle');
+
+            // Update Progress
+            const bar = document.getElementById('progress-bar');
+            bar.style.width = '55%';
+
+            // Simple micro-interaction for response slot
+            const slot = document.getElementById('user-response-slot');
+            slot.innerHTML = `
+                <div class="p-4 rounded-xl rounded-tr-sm bg-primary/10 border border-primary/30 text-primary font-medium animate-fade-in">
+                    ${value}
+                </div>
+            `;
+            slot.classList.remove('hidden');
+            slot.classList.add('flex', 'animate-fade-in');
+
+            // Transition logic (Simulation)
+            setTimeout(() => {
+                console.log(`Calibrating VOCA for: ${value}`);
+                // In a real app, this would trigger the next question
+            }, 500);
+        }
+
+        // Initialize progress bar
+        window.onload = () => {
+            const bar = document.getElementById('progress-bar');
+            bar.style.width = '35%';
+        };
+    </script>
+</body></html>
