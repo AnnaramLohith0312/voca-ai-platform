@@ -1,5 +1,23 @@
+/**
+ * VOCA Recommendation Engine
+ * ──────────────────────────────────────────────────────────────────
+ * Scores every career in the dataset against the user's onboarding
+ * signals and returns a ranked, stage-filtered result payload.
+ *
+ * Scoring logic (0-100):
+ *   +25  keyword match (answers contain career keywords)
+ *   +20  subject affinity match
+ *   +20  stage relevance match
+ *   +15  traits / work-style match
+ *   +10  stream match (for school-stage users)
+ *   +10  domain interest match
+ */
+
 import { CareerSignals } from "./types";
 import { ResultsPayload } from "../services/interfaces";
+import { CAREER_DATASET, CareerEntry } from "./careerDataset";
+
+// ─── Helpers ────────────────────────────────────────────────────────────────
 
 function normalizeInput(input: string): string {
   return input.toLowerCase().trim().replace(/[^a-z0-9\s]/g, "");
@@ -7,297 +25,294 @@ function normalizeInput(input: string): string {
 
 function matchesAny(input: string, keywords: string[]): boolean {
   const norm = normalizeInput(input);
-  return keywords.some((kw) => norm.includes(kw));
+  return keywords.some((kw) => norm.includes(normalizeInput(kw)));
 }
 
-export function generateRecommendations(userId: string, signals: CareerSignals, answers: Record<string, string>): ResultsPayload {
+function allAnswersText(answers: Record<string, string>): string {
+  return Object.values(answers).join(" ");
+}
+
+// ─── Scoring ────────────────────────────────────────────────────────────────
+
+function scoreCareer(
+  career: CareerEntry,
+  signals: CareerSignals,
+  answers: Record<string, string>
+): number {
+  let score = 0;
+  const combinedAnswers = allAnswersText(answers);
+
+  // 1. Keyword match — up to 25 pts
+  const kwMatches = career.keywords.filter((kw) =>
+    matchesAny(combinedAnswers, [kw])
+  ).length;
+  score += Math.min(25, Math.round((kwMatches / career.keywords.length) * 25));
+
+  // 2. Subject affinity — up to 20 pts
+  const subjectMatches = career.subjectAffinity.filter((sub) =>
+    signals.subjectAffinity?.some((s) => matchesAny(s, [sub])) ||
+    matchesAny(combinedAnswers, [sub])
+  ).length;
+  score += Math.min(20, Math.round((subjectMatches / Math.max(career.subjectAffinity.length, 1)) * 20));
+
+  // 3. Stage relevance — up to 20 pts
+  if (career.stages.includes(signals.stage)) {
+    score += 20;
+  }
+
+  // 4. Traits / orientation match — up to 15 pts
+  let traitScore = 0;
+  if (signals.technicalOrientation === "High" && career.traits.some(t => matchesAny(t, ["technical", "analytical", "logical", "systematic"]))) traitScore += 5;
+  if (signals.creativityVsStructure === "Creativity" && career.traits.some(t => matchesAny(t, ["creative", "expressive", "visual", "storyteller"]))) traitScore += 5;
+  if (signals.leadershipInclination === "High" && career.traits.some(t => matchesAny(t, ["leadership", "lead", "manage", "organiser"]))) traitScore += 5;
+  if (signals.analyticalOrientation === "High" && career.traits.some(t => matchesAny(t, ["analytical", "research", "data", "methodical"]))) traitScore += 5;
+  if (signals.communicationOrientation === "High" && career.traits.some(t => matchesAny(t, ["communicator", "social", "empathetic", "persuasive"]))) traitScore += 5;
+  score += Math.min(15, traitScore);
+
+  // 5. Stream match for school-stage users — up to 10 pts
+  if ((signals.stage === "class10" || signals.stage === "plus1plus2") && signals.currentStream && career.streams) {
+    if (career.streams.some(s => matchesAny(signals.currentStream!, [s]))) {
+      score += 10;
+    }
+  }
+
+  // 6. Domain interest match — up to 10 pts
+  const domainKeywords: Record<string, string[]> = {
+    "Engineering & Technology": ["tech", "engineering", "coding", "software", "build", "computer"],
+    "Business & Finance": ["business", "finance", "money", "commerce", "manage", "marketing"],
+    "Arts & Design": ["art", "design", "creative", "visual", "media", "fashion"],
+    "Medicine & Healthcare": ["health", "medicine", "doctor", "biology", "care", "science"],
+    "Defence & Civil Services": ["army", "defence", "military", "navy", "airforce", "government", "ias", "police", "uniform"],
+    "Research & Academia": ["research", "science", "lab", "study", "phd", "academia"],
+    "Law & Policy": ["law", "policy", "legal", "court", "justice", "governance"],
+    "Education": ["teach", "education", "school", "mentor", "learning"],
+    "Media & Communication": ["media", "writing", "journalism", "communication", "content", "storytell"],
+    "Social Impact": ["social", "community", "impact", "ngo", "environment", "welfare"],
+  };
+  const domKws = domainKeywords[career.domain] ?? [];
+  if (domKws.some((kw) => matchesAny(combinedAnswers, [kw]))) {
+    score += 10;
+  }
+
+  return Math.min(100, score);
+}
+
+// ─── Skill Variants ─────────────────────────────────────────────────────────
+
+function buildSkillBars(career: CareerEntry, signals: CareerSignals) {
+  return career.skills.slice(0, 4).map((skill, i) => ({
+    skill,
+    level: i === 0 ? "Advanced" : i === 1 ? "Intermediate" : "Learning",
+    percentage: Math.max(40, 90 - i * 15),
+    variant: (i < 2 ? "teal" : "red") as "teal" | "red",
+  }));
+}
+
+// ─── Main Export ─────────────────────────────────────────────────────────────
+
+export function generateRecommendations(
+  userId: string,
+  signals: CareerSignals,
+  answers: Record<string, string>
+): ResultsPayload {
   const generatedAt = new Date().toISOString();
   const id = `res_${userId}_${Date.now()}`;
 
+  // Score all careers against this user's signals
+  const scoredCareers = CAREER_DATASET.map((career) => ({
+    career,
+    score: scoreCareer(career, signals, answers),
+  }))
+    .filter((sc) => sc.career.stages.includes(signals.stage))  // only stage-relevant
+    .sort((a, b) => b.score - a.score);                         // highest score first
+
+  const top = scoredCareers.slice(0, 5);   // top 5 careers
+  const primary = top[0];
+  const alternates = top.slice(1, 4);      // next 3 as alternatives
+
+  if (!primary) {
+    // Absolute fallback — no careers matched
+    return { id, userId, generatedAt, stage: signals.stage, primary: null };
+  }
+
+  // ── School / Class 10 output ──────────────────────────────────────
   if (signals.stage === "class10") {
-    // Stage A: Class 10 Student
-    const favSubject = answers["What subjects do you enjoy most?"] || "Science & Math";
-    const learningStyle = answers["How do you prefer to learn?"] || "Doing experiments and projects";
-    
-    let recommendedStreams = [
-      { stream: "Science Stream (PCM/PCB)", matchScore: 92, reason: "Aligns with your love for logical reasoning and hands-on experiments." },
-      { stream: "Interdisciplinary Design & Technology", matchScore: 85, reason: "Excellent choice for blending creative arts with digital tech." },
-      { stream: "Commerce & Applied Economics", matchScore: 65, reason: "Good if you want to transition towards business leadership later." }
-    ];
-
-    let broadClusters = [
-      { name: "Engineering & Applied Technology", description: "Designing, programming, and building software or hardware solutions." },
-      { name: "Digital Design & Creative Media", description: "Creating visual stories, user experiences, and multi-media designs." }
-    ];
-
-    const artKeywords = ["art", "design", "creative", "media", "draw", "paint", "visual"];
-    const bizKeywords = ["commerce", "business", "money", "finance", "manage", "sell", "marketing"];
-
-    if (matchesAny(favSubject, artKeywords)) {
-      recommendedStreams = [
-        { stream: "Arts & Humanities with Creative Arts Elective", matchScore: 95, reason: "Perfect match for your strong creative drive and preference for visual learning." },
-        { stream: "Interdisciplinary Design & Technology", matchScore: 90, reason: "Combines creative design instincts with modern technology tools." },
-        { stream: "Commerce with Marketing focus", matchScore: 70, reason: "Applies creativity directly to business branding and entrepreneurial paths." }
-      ];
-      broadClusters = [
-        { name: "Creative Arts, UX, & Communication", description: "Roles focusing on design systems, visual arts, communication, and human experiences." },
-        { name: "Interdisciplinary Technology", description: "Blending creative front-end design with digital product building." }
-      ];
-    } else if (matchesAny(favSubject, bizKeywords)) {
-      recommendedStreams = [
-        { stream: "Commerce with Applied Economics & Math", matchScore: 94, reason: "Directly matches your interest in commerce, market logic, and numbers." },
-        { stream: "Humanities with Economics & Business Studies", matchScore: 80, reason: "Offers a broader perspective on social sciences, policy, and market dynamics." },
-        { stream: "Science (PCM) with Computer Science", matchScore: 75, reason: "Highly quantitative foundation useful for advanced finance and tech systems." }
-      ];
-      broadClusters = [
-        { name: "Finance, Markets & Economics", description: "Analyzing business trends, managing investments, and developing corporate strategies." },
-        { name: "Entrepreneurship & Product Leadership", description: "Identifying market needs, managing resources, and launching new initiatives." }
-      ];
-    }
+    const topDomains = [...new Set(top.map(sc => sc.career.domain))].slice(0, 3);
 
     return {
       id,
       userId,
       generatedAt,
       stage: "class10",
-      recommendedStreams,
-      broadClusters,
-      whyRecommended: `VOCA recommends exploring the ${recommendedStreams[0].stream} because your strongest signals indicate a high comfort with ${favSubject} and you learn best through ${learningStyle}. This stage is about exposing yourself to these concepts before committing.`,
-      skillsToBuild: [
-        "Computational Thinking (Scratch/Python basics)",
-        "Visual Communication (Sketching/Figma)",
-        "Structured Problem Solving",
-        "Public Speaking & Presentation"
-      ],
-      nextSteps: [
-        "Take a basic online course in Programming or UX Design",
-        "Participate in Science or Design exhibitions in school",
-        "Interview a professional working in tech or business",
-        "Maintain a reading list of science, business, and design blogs"
-      ],
-      cautions: "Important: At this stage, your interests are highly fluid. Do not lock yourself into a hyper-specific career title (like 'AI Researcher' or 'Investment Banker') just yet. Focus on building broad foundations in logic, math, and communication."
+      recommendedStreams: top.slice(0, 3).flatMap(sc =>
+        (sc.career.streams ?? []).map(stream => ({
+          stream,
+          matchScore: sc.score,
+          reason: sc.career.summary,
+        }))
+      ).slice(0, 3),
+      broadClusters: topDomains.map(domain => ({
+        name: domain,
+        description: `Careers like ${scoredCareers.filter(sc => sc.career.domain === domain).slice(0, 2).map(sc => sc.career.title).join(", ")} fit your profile.`,
+      })),
+      careerMatches: top.map(sc => ({
+        title: sc.career.title,
+        domain: sc.career.domain,
+        matchScore: sc.score,
+        summary: sc.career.summary,
+        entryPaths: sc.career.entryPaths,
+      })),
+      whyRecommended: `Based on your interests and strengths, VOCA identified strong signals towards ${topDomains[0]}. Focus on building broad foundations first before committing.`,
+      skillsToBuild: primary.career.skills.slice(0, 4),
+      nextSteps: primary.career.entryPaths.slice(0, 3),
+      cautions: "At this stage, keep your options open. These are directions, not final decisions.",
     };
   }
 
+  // ── Plus 1 / Plus 2 output ────────────────────────────────────────
   if (signals.stage === "plus1plus2") {
-    // Stage B: Plus 1 / Plus 2 Student
-    const stream = answers["What stream are you in currently?"] || "Science (PCM)";
-    const careerInterest = answers["What kind of career domain excites you most?"] || "Technology / Engineering";
-
-    let degreeDirections = [
-      { degree: "Bachelor of Technology (B.Tech / BE) in CS/IT", why: "Strongest technical alignment for PCM students eyeing tech careers." },
-      { degree: "Bachelor of Science (B.Sc) in Data Science / Mathematics", why: "For students interested in quantitative research and statistics." },
-      { degree: "Bachelor of Design (B.Des) in Interaction Design", why: "For PCM students with a strong creative and aesthetic inclination." }
-    ];
-
-    let matchingDomains = [
-      { domain: "Software Engineering & Computer Science", matchScore: 94 },
-      { domain: "Data Analytics & Computational Modeling", matchScore: 85 },
-      { domain: "Digital Product Management", matchScore: 78 }
-    ];
-
-    const bioKeywords = ["pcb", "bio", "medic", "doctor", "health", "science", "clinical"];
-    const bizKeywords = ["commerce", "business", "finance", "money", "management", "corporate", "ca", "cfa"];
-
-    if (matchesAny(stream, bioKeywords) || matchesAny(careerInterest, bioKeywords)) {
-      degreeDirections = [
-        { degree: "MBBS (Bachelor of Medicine, Bachelor of Surgery)", why: "The classic path to clinical medicine and surgery." },
-        { degree: "B.Sc / B.Tech in Biotechnology / Genetics", why: "Bridging life sciences, research, and technical labs." },
-        { degree: "B.Sc in Psychology or Cognitive Science", why: "For students fascinated by human behavior, mental health, and research." }
-      ];
-      matchingDomains = [
-        { domain: "Clinical Medicine & Patient Care", matchScore: 92 },
-        { domain: "Biotechnology Research & Genetics", matchScore: 88 },
-        { domain: "Cognitive Sciences & Clinical Psychology", matchScore: 80 }
-      ];
-    } else if (matchesAny(stream, bizKeywords) || matchesAny(careerInterest, bizKeywords)) {
-      degreeDirections = [
-        { degree: "Bachelor of Commerce (B.Com Hons)", why: "Provides rigorous foundation in accountancy, corporate laws, and finance." },
-        { degree: "Bachelor of Business Administration (BBA) in Finance", why: "Best for direct corporate management and entrepreneurship preparation." },
-        { degree: "Chartered Accountancy (CA) / CFA Track", why: "For deep, specialized roles in corporate auditing and investment banking." }
-      ];
-      matchingDomains = [
-        { domain: "Corporate Finance & Investment Banking", matchScore: 95 },
-        { domain: "Business Analytics & Consulting", matchScore: 87 },
-        { domain: "Startup Operations & Strategy", matchScore: 82 }
-      ];
-    }
-
     return {
       id,
       userId,
       generatedAt,
       stage: "plus1plus2",
-      degreeDirections,
-      matchingDomains,
-      roleClusters: ["Software Engineers", "Data Analysts", "Product Specialists", "Systems Administrators"],
-      whyRecommended: `Your background in ${stream} combined with an interest in ${careerInterest} suggests you are ready to target degree programs that lay a solid mathematical and logical foundation. The B.Tech/B.Sc paths offer the maximum versatility for your profile.`,
-      nextSteps: [
-        "Research entrance exam dates (JEE, SAT, UCEED, or state equivalents)",
-        "Build 1-2 coding or design projects to add to your college applications",
-        "Attend virtual open days for top-tier universities",
-        "Take a career-interest diagnostic test for specific subjects"
-      ],
-      skillBuildingSuggestions: [
-        "Learn Python or Javascript fundamentals",
-        "Familiarize yourself with Figma or Canva for design basics",
-        "Understand financial models (simple budgeting and cashflow analytics)",
-        "Practice daily verbal reasoning and critical thinking exercises"
-      ]
+      degreeDirections: top.slice(0, 3).map(sc => ({
+        degree: sc.career.degreeOptions[0] ?? "Relevant degree program",
+        why: sc.career.summary,
+      })),
+      matchingDomains: top.map(sc => ({
+        domain: sc.career.domain + " — " + sc.career.title,
+        matchScore: sc.score,
+      })),
+      roleClusters: top.map(sc => sc.career.title),
+      careerMatches: top.map(sc => ({
+        title: sc.career.title,
+        domain: sc.career.domain,
+        matchScore: sc.score,
+        summary: sc.career.summary,
+        entryPaths: sc.career.entryPaths,
+        salaryBand: sc.career.salaryBand,
+      })),
+      whyRecommended: `Your stream and career interests point strongly towards ${primary.career.domain}. ${primary.career.title} is your strongest match at ${primary.score}% fit.`,
+      nextSteps: primary.career.entryPaths,
+      skillBuildingSuggestions: primary.career.skills,
     };
   }
 
+  // ── Undergraduate output ──────────────────────────────────────────
   if (signals.stage === "undergraduate") {
-    // Stage C: Undergraduate Student
-    const favPart = answers["What are your favorite parts of your studies?"] || "Technical coding/labs";
-    const skill = answers["What do you consider your strongest skill?"] || "Coding / Technical implementation";
-
-    let title = "Junior Software Engineer";
-    let summary = "Develops, tests, and maintains modern web and mobile applications using structured codebases and APIs.";
-    let skills = [
-      { skill: "Software Engineering & Data Structures", level: "Intermediate", percentage: 75, variant: "teal" as const },
-      { skill: "Web Application Development (React/TS)", level: "Advanced", percentage: 80, variant: "teal" as const },
-      { skill: "Version Control & Git Pipelines", level: "Advanced", percentage: 82, variant: "teal" as const },
-      { skill: "System Design & Databases", level: "Learning", percentage: 40, variant: "red" as const }
-    ];
-
-    const designKeywords = ["design", "ui", "ux", "creative", "art", "visual", "front-end", "interface"];
-    const dataKeywords = ["data", "research", "analyze", "analytics", "statistics", "math", "machine learning"];
-
-    if (matchesAny(favPart, designKeywords) || matchesAny(skill, designKeywords)) {
-      title = "Junior UX/UI Designer";
-      summary = "Focuses on crafting user journeys, wireframes, style guides, and high-fidelity mockups for digital products.";
-      skills = [
-        { skill: "UI/UX Design Systems & Figma", level: "Expert", percentage: 90, variant: "teal" as const },
-        { skill: "User Research & Usability Testing", level: "Advanced", percentage: 78, variant: "teal" as const },
-        { skill: "Interaction Design & Prototyping", level: "Advanced", percentage: 80, variant: "teal" as const },
-        { skill: "HTML/CSS & Front-end Integration", level: "Learning", percentage: 45, variant: "red" as const }
-      ];
-    } else if (matchesAny(favPart, dataKeywords) || matchesAny(skill, dataKeywords)) {
-      title = "Junior Data Analyst";
-      summary = "Processes, analyzes, and visualizes complex datasets to extract business-critical insights and fuel dashboards.";
-      skills = [
-        { skill: "SQL Query Writing & Database Joins", level: "Expert", percentage: 88, variant: "teal" as const },
-        { skill: "Data Visualization (Tableau/PowerBI)", level: "Advanced", percentage: 82, variant: "teal" as const },
-        { skill: "Python Analytics (Pandas/NumPy)", level: "Advanced", percentage: 75, variant: "teal" as const },
-        { skill: "Statistical Analysis & R", level: "Learning", percentage: 45, variant: "red" as const }
-      ];
-    }
-
     return {
       id,
       userId,
       generatedAt,
       stage: "undergraduate",
       primary: {
-        title,
+        title: primary.career.title,
         category: "Primary Trajectory",
-        matchScore: 92,
-        summary,
+        matchScore: primary.score,
+        summary: primary.career.summary,
         rationale: [
-          { heading: "Skill Match", body: `Your strong performance in '${skill}' aligns perfectly with the day-to-day requirements of a ${title}.` },
-          { heading: "Practical Preference", body: "Your desire to jump directly into building and deploying matches the high-agency mindset needed for entry-level engineering/design teams." }
+          {
+            heading: "Skill Match",
+            body: `Your strongest signals align with the ${primary.career.sector} sector where ${primary.career.title} is a core role.`,
+          },
+          {
+            heading: "Domain Fit",
+            body: `Your interest profile fits ${primary.career.domain}, and this role has a growth score of ${primary.career.growthScore}/100 in the current market.`,
+          },
         ],
-        skills,
-        strongestSignals: [favPart, skill],
-        improvementAreas: ["System Design & Databases", "API Optimization"],
-        improvementNote: "Deepening your system design concept knowledge will make you highly competitive for top placements.",
-        priorities: ["Technical Growth", "Startup Agility"],
-        prioritiesNote: "You thrive in high-paced environments that challenge your technical skills early in your career.",
+        skills: buildSkillBars(primary.career, signals),
+        strongestSignals: signals.strengths ?? [],
+        improvementAreas: primary.career.improvementAreas.slice(0, 2),
+        improvementNote: `Focusing on ${primary.career.improvementAreas[0]} will make you significantly more competitive for top roles.`,
+        priorities: signals.motivationDrivers?.slice(0, 2) ?? ["Growth", "Impact"],
+        prioritiesNote: "These motivators align well with your primary career trajectory.",
         coreValues: [
-          { title: "Rapid Execution", body: "Focusing on writing, shipping, and iterating code quickly." },
-          { title: "Continuous Mentorship", body: "Working in teams with strong senior engineer supervision to learn best practices." }
+          { title: "Career Growth", body: `${primary.career.title} roles offer a salary band of ${primary.career.salaryBand}.` },
+          { title: "Market Demand", body: `This field has a market growth score of ${primary.career.growthScore}/100.` },
         ],
-        alternativePaths: [
-          { title: "Systems Administrator", matchScore: 81, description: "Managing server clusters, cloud hosting, and networking logic." },
-          { title: "Associate Product Manager", matchScore: 78, description: "Helping define features, prioritize backlogs, and run scrum meetings." }
-        ],
-        whyRecommended: `Your university specialization and interest in '${favPart}' make ${title} the most logical and practical launchpad for your career.`
+        alternativePaths: alternates.map(sc => ({
+          title: sc.career.title,
+          matchScore: sc.score,
+          description: sc.career.summary,
+        })),
+        whyRecommended: `Your profile from the onboarding conversation matches the requirements of a ${primary.career.title} most strongly across ${Object.keys(answers).length} evaluated dimensions.`,
       },
-      specializationSuggestions: [
-        "Full-Stack Web Development",
-        "Cloud Infrastructure (AWS/GCP)",
-        "Mobile App Engineering"
-      ],
+      careerMatches: top.map(sc => ({
+        title: sc.career.title,
+        domain: sc.career.domain,
+        matchScore: sc.score,
+        summary: sc.career.summary,
+        salaryBand: sc.career.salaryBand,
+        entryPaths: sc.career.entryPaths,
+      })),
+      specializationSuggestions: primary.career.degreeOptions,
       internshipProjects: [
-        "Build a fully functioning e-commerce API and connect it to a React frontend",
-        "Contribute to open-source libraries in your favorite tech stack"
+        `Build a portfolio project demonstrating ${primary.career.skills[0]}`,
+        `Intern at a company in the ${primary.career.sector} sector`,
       ],
-      placementReadiness: "Medium-High. Focus on system design questions and mock technical interviews to lock in top offers."
+      placementReadiness: primary.score > 75
+        ? "High. You show strong alignment — focus on interview preparation."
+        : "Medium. Strengthen your skills in " + primary.career.improvementAreas[0] + " to improve placement odds.",
     };
   }
 
-  // Stage D: Job Shift
-  const currentField = answers["What field are you currently working in?"] || "Software / IT";
-  const switchType = answers["What type of career transition are you looking for?"] || "Move to adjacent domain";
-  const asset = answers["What is your strongest transferable asset?"] || "Technical skills (code/systems)";
-
-  let title = "AI Solutions Engineer";
-  let summary = "Leverages software background and systems engineering expertise to integrate agentic AI pipelines and custom LLM interfaces for enterprise operations.";
-  let skills = [
-    { skill: "System Architecture", level: "Expert", percentage: 92, variant: "teal" as const },
-    { skill: "APIs & Web Service Integration", level: "Expert", percentage: 90, variant: "teal" as const },
-    { skill: "AI Agent Orchestration (LangChain)", level: "Advanced", percentage: 76, variant: "teal" as const },
-    { skill: "UI Layouts & Design Systems", level: "Learning", percentage: 50, variant: "red" as const }
-  ];
-
-  const stratKeywords = ["people", "strategy", "manage", "product", "lead", "business", "vision", "communication", "soft skills"];
-
-  if (matchesAny(asset, stratKeywords)) {
-    title = "AI Product Manager";
-    summary = "Bridges the gap between engineering feasibility and business strategy, managing modern agentic workflows.";
-    skills = [
-      { skill: "Product Strategy & Vision", level: "Expert", percentage: 94, variant: "teal" as const },
-      { skill: "Cross-functional Collaboration", level: "Expert", percentage: 92, variant: "teal" as const },
-      { skill: "AI/ML Systems Architecture", level: "Advanced", percentage: 80, variant: "teal" as const },
-      { skill: "Rapid Prototyping", level: "Learning", percentage: 48, variant: "red" as const }
-    ];
-  }
-
+  // ── Job Shift output ──────────────────────────────────────────────
   return {
     id,
     userId,
     generatedAt,
     stage: "jobshift",
     primary: {
-      title,
+      title: primary.career.title,
       category: "Primary Trajectory",
-      matchScore: 94,
-      summary,
+      matchScore: primary.score,
+      summary: primary.career.summary,
       rationale: [
-        { heading: "Transferable Asset Utilisation", body: `Your strong command of '${asset}' translates directly to the design and oversight requirements of an ${title}.` },
-        { heading: "Calculated Shift", body: `A transition of type '${switchType}' allows you to leverage past credentials in ${currentField} while breaking into high-demand AI implementation roles.` }
+        {
+          heading: "Transferable Strengths",
+          body: `Your background and transferable assets align well with what ${primary.career.title} roles require.`,
+        },
+        {
+          heading: "Market Opportunity",
+          body: `${primary.career.domain} has a growth score of ${primary.career.growthScore}/100, making this an opportune time to pivot.`,
+        },
       ],
-      skills,
-      strongestSignals: [currentField, asset, switchType],
-      improvementAreas: ["Machine Learning Fine-Tuning", "GPU Infrastructure Management"],
-      improvementNote: "Taking courses in deep learning operations (MLOps) will help secure senior roles in this space.",
-      priorities: ["Growth Trajectory", "High Autonomy"],
-      prioritiesNote: "You are looking to escape stagnation and enter a domain with high-impact responsibilities.",
+      skills: buildSkillBars(primary.career, signals),
+      strongestSignals: signals.strengths ?? [],
+      improvementAreas: primary.career.improvementAreas.slice(0, 2),
+      improvementNote: `Bridging the gap in ${primary.career.improvementAreas[0]} will accelerate your transition significantly.`,
+      priorities: signals.motivationDrivers?.slice(0, 2) ?? ["Growth", "Autonomy"],
+      prioritiesNote: "Your stated motivators match well with what this career path offers.",
       coreValues: [
-        { title: "Exponential Growth", body: "Direct positioning in high-velocity tech segments." },
-        { title: "Creative Autonomy", body: "High level of individual decision-making in technical execution." }
+        { title: "Income Potential", body: `Target salary band: ${primary.career.salaryBand}.` },
+        { title: "Growth Trajectory", body: `Market growth score: ${primary.career.growthScore}/100.` },
       ],
-      alternativePaths: [
-        { title: "Lead Software Architect", matchScore: 86, description: "Focusing heavily on backend systems and scalability." },
-        { title: "Technical Consultant", matchScore: 82, description: "Designing tech integrations for diverse enterprise clients." }
-      ],
-      whyRecommended: `This path leverages your ${currentField} background while pivoting towards the highest growing technology category of the decade.`
+      alternativePaths: alternates.map(sc => ({
+        title: sc.career.title,
+        matchScore: sc.score,
+        description: sc.career.summary,
+      })),
+      whyRecommended: `${primary.career.title} leverages your existing experience while opening high-growth career opportunities in ${primary.career.domain}.`,
     },
+    careerMatches: top.map(sc => ({
+      title: sc.career.title,
+      domain: sc.career.domain,
+      matchScore: sc.score,
+      summary: sc.career.summary,
+      salaryBand: sc.career.salaryBand,
+      entryPaths: sc.career.entryPaths,
+    })),
     transitionFeasibility: {
-      score: 85,
-      difficulty: "Moderate",
-      reason: "Your years of experience give you the structural maturity needed. You only need to bridge specialized technical skills in AI agent frameworks."
+      score: Math.min(95, primary.score + 10),
+      difficulty: primary.score > 75 ? "Low-Moderate" : primary.score > 55 ? "Moderate" : "High",
+      reason: `Your profile has a ${primary.score}% alignment with this role. ${primary.score > 65 ? "The transition is feasible with targeted upskilling." : "A structured transition plan over 6-12 months is recommended."}`,
     },
-    transferableStrengths: [
-      "Software Design Principles",
-      "API Integrations",
-      "Team Leadership & Mentorship"
-    ],
+    transferableStrengths: signals.strengths?.slice(0, 3) ?? primary.career.skills.slice(0, 2),
     upskillingRoadmap: [
-      { step: "Phase 1: Foundation", detail: "Complete intermediate certifications in LLM orchestration, Prompt Engineering, and Vector Databases." },
-      { step: "Phase 2: Project Build", detail: "Build 2 functional agentic tools showing retrieval augmented generation (RAG) and host them publicly on GitHub." },
-      { step: "Phase 3: Network & Apply", detail: "Connect with Engineering Directors in AI-first startups and present your portfolio projects." }
-    ]
+      { step: "Phase 1: Foundation", detail: `Build proficiency in: ${primary.career.improvementAreas.join(", ")}.` },
+      { step: "Phase 2: Portfolio", detail: `Complete ${primary.career.entryPaths[0]} to demonstrate transition readiness.` },
+      { step: "Phase 3: Apply", detail: `Target companies in the ${primary.career.sector} sector that value career changers.` },
+    ],
   };
 }
