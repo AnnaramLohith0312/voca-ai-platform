@@ -8,7 +8,7 @@ describe("Stage Detection and Recommendation Engine Test Suite", () => {
     it("should correctly detect class10 students with confidence", () => {
       const res1 = detectStage("I am currently in class 10");
       expect(res1.stage).toBe("class10");
-      expect(res1.confidence).toBeGreaterThan(0.5);
+      expect(res1.confidence).toBe("high");
 
       const res2 = detectStage("10th grade");
       expect(res2.stage).toBe("class10");
@@ -32,17 +32,32 @@ describe("Stage Detection and Recommendation Engine Test Suite", () => {
     it("should return unknown and low confidence for vague or empty answers", () => {
       const res1 = detectStage("Just curious about my options");
       expect(res1.stage).toBe("unknown");
-      expect(res1.confidence).toBeLessThan(1);
+      expect(res1.confidence).toBe("low");
 
       const res2 = detectStage(" ");
       expect(res2.stage).toBe("unknown");
-      expect(res2.confidence).toBe(0);
+      expect(res2.confidence).toBe("low");
     });
 
     it("should return unknown when inputs are contradictory", () => {
       // Input has both 'class 10' and 'working professional'
       const res = detectStage("I am a working professional who mentors class 10 students");
       expect(res.stage).toBe("unknown");
+    });
+
+    it("should match new test cases from user prompt", () => {
+      expect(detectStage("i am exploring options after 12th")).toEqual({ stage: "plus1plus2", confidence: "high" });
+      expect(detectStage("just finished 12th")).toEqual({ stage: "plus1plus2", confidence: "high" });
+      expect(detectStage("completed 10th")).toEqual({ stage: "class10", confidence: "high" });
+      expect(detectStage("after 10th")).toEqual({ stage: "class10", confidence: "high" });
+      expect(detectStage("i am in final year of btech")).toEqual({ stage: "undergraduate", confidence: "high" });
+      expect(detectStage("working professional looking for change")).toEqual({ stage: "jobshift", confidence: "high" });
+      expect(detectStage("i have no idea")).toEqual({ stage: "unknown", confidence: "low" });
+      expect(detectStage("")).toEqual({ stage: "unknown", confidence: "low" });
+      
+      const changeRes = detectStage("i want a career change");
+      expect(changeRes.stage).toBe("jobshift");
+      expect(["medium", "high"]).toContain(changeRes.confidence);
     });
   });
 

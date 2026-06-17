@@ -15,7 +15,7 @@ function detectStage(firstAnswer: string): StageDetectionResult {
     return { stage: "unknown", confidence: 0 };
   }
 
-  let scores: Record<DbUserStage, number> = {
+  const scores: Record<DbUserStage, number> = {
     class10: 0,
     plus1plus2: 0,
     undergraduate: 0,

@@ -339,14 +339,7 @@ export async function sendMessage(
       return await attemptSendMessage(ai, modelName, history, userInput);
     } catch (fallbackErr) {
       console.error("VOCA AI Agent error (both models failed):", fallbackErr);
-      return {
-        reply: "Sorry, I ran into a small issue. Could you try again?",
-        rawReply: "",
-        progress: 0,
-        signals: null,
-        answersMap: null,
-        isDone: false,
-      };
+      throw new Error("Failed to communicate with VOCA AI Agent. Please try again.");
     }
   }
 }
@@ -354,4 +347,54 @@ export async function sendMessage(
 /** Called once on mount to get the AI's opening greeting */
 export async function startConversation(): Promise<AgentResponse> {
   return sendMessage([], "__START__");
+}
+
+export async function askCareerFollowUp(
+  careerTitle: string,
+  stage: string,
+  history: AgentMessage[],
+  userInput: string
+): Promise<string> {
+  const ai = getGenAI();
+
+  const prompt = `You are VOCA — an expert career guidance assistant. The user has just completed their onboarding and received recommendations.
+Their primary recommended career trajectory is: "${careerTitle}" (at the "${stage}" life stage).
+
+Your task is to answer the user's follow-up questions about this specific career path in India.
+- Keep your answers highly encouraging, realistic, clear, and actionable.
+- Max 3-4 sentences per response.
+- Provide specific local context for India if relevant (e.g. entry exams like GATE/CLAT/CAT, top colleges, or salary bands in INR).
+- Do not mention any progress tags or signals. Just write a conversational reply.`;
+
+  if (!ai) {
+    console.warn("VOCA: No VITE_GEMINI_API_KEY found. Using mock follow-up reply.");
+    return `That's a great question about the ${careerTitle} role! In India, this path offers excellent growth, typically starting around ₹6-8L/year and scaling rapidly as you build expertise. Focused preparation on core skills and targeted internships will set you up for success.`;
+  }
+
+  let modelName = "gemini-2.5-flash";
+  const getResponse = async (modelNameStr: string) => {
+    const model = ai.getGenerativeModel({
+      model: modelNameStr,
+      systemInstruction: prompt,
+    });
+    const geminiHistory: Content[] = history.map((m) => ({
+      role: m.role,
+      parts: [{ text: m.parts }],
+    }));
+    const chat = model.startChat({ history: geminiHistory });
+    const result = await fetchWithRetry(() => chat.sendMessage(userInput));
+    return result.response.text().trim();
+  };
+
+  try {
+    return await getResponse(modelName);
+  } catch (err: any) {
+    console.warn(`VOCA AI Agent Follow-up: Primary model ${modelName} failed. Trying fallback...`, err?.message || err);
+    try {
+      return await getResponse("gemini-2.5-flash-lite");
+    } catch (fallbackErr) {
+      console.error("VOCA AI Agent Follow-up error:", fallbackErr);
+      return "I'm sorry, I'm currently unable to process your request. Please try again in a few moments.";
+    }
+  }
 }

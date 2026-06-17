@@ -147,7 +147,7 @@ export type ResultsPayload =
   | JobShiftResultsPayload;
 
 export interface IResultsService {
-  generateResults(userId: string, answers: Record<string, string>): Promise<ResultsPayload>;
+  generateResults(userId: string, answers: Record<string, string>, pinnedCareerTitle?: string): Promise<ResultsPayload>;
   getResults(userId: string): Promise<ResultsPayload | null>;
   clearResults(userId: string): Promise<void>;
 }

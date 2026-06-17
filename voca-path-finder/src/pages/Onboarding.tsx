@@ -5,6 +5,7 @@ import { useVoca } from "@/contexts/VocaContext";
 import type { OnboardingAnswer } from "@/services/interfaces";
 import { sendMessage, startConversation, isAIConfigured } from "@/engine/aiAgent";
 import type { AgentMessage } from "@/engine/aiAgent";
+import { detectStage } from "@/engine/stageDetection";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -40,10 +41,20 @@ export default function Onboarding() {
   const [isDone, setIsDone] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isMockMode, setIsMockMode] = useState(false);
+  const [chips, setChips] = useState<string[]>([]);
+  const [clarifyingStage, setClarifyingStage] = useState(false);
 
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const recognitionRef = useRef<InstanceType<typeof SpeechRecognition> | null>(null);
+  const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const STAGE_CHIPS = [
+    "Just finished Class 10",
+    "In Class 11 or 12",
+    "Currently doing my UG",
+    "I am working and exploring a shift"
+  ];
 
   // ── Scroll to bottom ────────────────────────────────────────────
   const scrollToBottom = useCallback(() => {
@@ -81,6 +92,7 @@ export default function Onboarding() {
       if (response.reply) {
         addMessage({ text: response.reply, isUser: false, isBig: true });
         setProgress(response.progress || 10);
+        setChips(STAGE_CHIPS);
 
         setHistory([
           { role: "model", parts: response.rawReply }
@@ -93,12 +105,15 @@ export default function Onboarding() {
   }, []);
 
   // ── Handle send ─────────────────────────────────────────────────
-  const handleSend = useCallback(async () => {
-    const text = inputText.trim();
+  const handleSend = useCallback(async (overrideText?: string | React.MouseEvent) => {
+    const textToUse = typeof overrideText === "string" ? overrideText : inputText;
+    const text = textToUse.trim();
     if (!text || isLoading || isDone) return;
 
-    setInputText("");
+    if (typeof overrideText !== "string") setInputText("");
     setIsLoading(true);
+    setChips([]);
+    setClarifyingStage(false);
 
     // Add user message to chat
     addMessage({ text, isUser: true, isBig: false });
@@ -113,10 +128,21 @@ export default function Onboarding() {
     setTimeout(() => {
       addMessage({ text: "...", isUser: false, isBig: false, isTyping: true });
       scrollToBottom();
+
+      typingTimerRef.current = setTimeout(() => {
+        removeTypingIndicator();
+        setIsLoading(false);
+        addMessage({
+          text: "Something took longer than expected. Let's try that again.",
+          isUser: false,
+          isBig: false,
+        });
+      }, 10000);
     }, 300);
 
     try {
       const response = await sendMessage(newHistory, text);
+      if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
       removeTypingIndicator();
 
       // Update progress
@@ -129,33 +155,56 @@ export default function Onboarding() {
         addMessage({ text: response.reply, isUser: false, isBig: false });
       }
 
-      // Update history
-      setHistory([
+      let clarifiedHistory: AgentMessage[] = [
         ...newHistory,
         { role: "model", parts: response.rawReply },
-      ]);
+      ];
 
       // Conversation complete — extract signals and navigate
       if (response.isDone && response.signals) {
-        setIsDone(true);
-        setProgress(100);
+        const stageAns = response.answersMap ? Object.values(response.answersMap)[0] : null;
+        let requiresClarification = false;
+        
+        if (stageAns) {
+          const detected = detectStage(stageAns);
+          if (detected.stage === "unknown") {
+            requiresClarification = true;
+          }
+        }
 
-        // Build OnboardingAnswer array from rawAnswers
-        const answers: OnboardingAnswer[] = Object.entries(
-          response.answersMap ?? {}
-        ).map(([question, answer]) => ({ question, answer }));
+        if (requiresClarification) {
+          setClarifyingStage(true);
+          setChips(STAGE_CHIPS);
+          const clarificationMsg = "Got it! To give you the most relevant guidance, which of these best describes you?";
+          addMessage({ text: clarificationMsg, isUser: false, isBig: false });
+          
+          clarifiedHistory.push({ role: "model", parts: clarificationMsg });
+          setHistory(clarifiedHistory);
+        } else {
+          setHistory(clarifiedHistory);
+          setIsDone(true);
+          setProgress(100);
 
-        // Store signals for the engine
-        const signalsPayload = response.signals;
+          // Build OnboardingAnswer array from rawAnswers
+          const answers: OnboardingAnswer[] = Object.entries(
+            response.answersMap ?? {}
+          ).map(([question, answer]) => ({ question, answer }));
 
-        await completeOnboarding(answers, signalsPayload);
+          // Store signals for the engine
+          const signalsPayload = response.signals;
 
-        setTimeout(() => navigate("/analysis"), 1800);
+          await completeOnboarding(answers, signalsPayload);
+
+          setTimeout(() => navigate("/analysis"), 1800);
+        }
+      } else {
+        setHistory(clarifiedHistory);
       }
     } catch {
+      if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
       removeTypingIndicator();
       addMessage({
-        text: "Hmm, something went wrong. Please try again.",
+        text: "Something took longer than expected. Let's try that again.",
         isUser: false,
         isBig: false,
       });
@@ -363,14 +412,34 @@ export default function Onboarding() {
             </div>
           ) : (
             /* ── Active input ── */
-            <div
-              className="flex items-end gap-3 rounded-2xl p-3 transition-all"
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                border: `1px solid ${isListening ? "rgba(14,165,160,0.5)" : "rgba(255,255,255,0.1)"}`,
-                boxShadow: isListening ? "0 0 20px rgba(14,165,160,0.15)" : "none",
-              }}
-            >
+            <div className="flex flex-col gap-3">
+              {chips.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 mb-1">
+                  {chips.map(chip => (
+                    <button
+                      key={chip}
+                      onClick={() => handleSend(chip)}
+                      disabled={isLoading}
+                      className="px-4 py-2 text-sm font-body rounded-full transition-all border hover:bg-teal-900/30"
+                      style={{
+                        background: "rgba(14,165,160,0.1)",
+                        borderColor: "rgba(14,165,160,0.3)",
+                        color: "#0ea5a0"
+                      }}
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div
+                className="flex items-end gap-3 rounded-2xl p-3 transition-all"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: `1px solid ${isListening ? "rgba(14,165,160,0.5)" : "rgba(255,255,255,0.1)"}`,
+                  boxShadow: isListening ? "0 0 20px rgba(14,165,160,0.15)" : "none",
+                }}
+              >
               {/* Textarea */}
               <textarea
                 ref={inputRef}
@@ -440,6 +509,7 @@ export default function Onboarding() {
                   </svg>
                 )}
               </button>
+            </div>
             </div>
           )}
 

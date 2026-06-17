@@ -113,7 +113,8 @@ function buildSkillBars(career: CareerEntry, signals: CareerSignals) {
 export function generateRecommendations(
   userId: string,
   signals: CareerSignals,
-  answers: Record<string, string>
+  answers: Record<string, string>,
+  pinnedCareerTitle?: string
 ): ResultsPayload {
   const generatedAt = new Date().toISOString();
   const id = `res_${userId}_${Date.now()}`;
@@ -126,9 +127,25 @@ export function generateRecommendations(
     .filter((sc) => sc.career.stages.includes(signals.stage))  // only stage-relevant
     .sort((a, b) => b.score - a.score);                         // highest score first
 
-  const top = scoredCareers.slice(0, 5);   // top 5 careers
-  const primary = top[0];
-  const alternates = top.slice(1, 4);      // next 3 as alternatives
+  let primaryIndex = 0;
+  if (pinnedCareerTitle) {
+    const idx = scoredCareers.findIndex((sc) => sc.career.title === pinnedCareerTitle);
+    if (idx !== -1) {
+      primaryIndex = idx;
+    }
+  }
+
+  const primary = scoredCareers[primaryIndex];
+  
+  // Alternates should be the next 3 highest-scored careers, excluding the primary career
+  const alternates = scoredCareers
+    .filter((_, idx) => idx !== primaryIndex)
+    .slice(0, 3);
+
+  // top contains primary first, then the next 4 highest scoring ones
+  const top = primary 
+    ? [primary, ...scoredCareers.filter((_, idx) => idx !== primaryIndex).slice(0, 4)]
+    : [];
 
   if (!primary) {
     // Absolute fallback — no careers matched
